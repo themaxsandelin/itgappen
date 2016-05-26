@@ -17,6 +17,9 @@
 				'feedback': 'Skicka feedback'
 			};
 
+	// Set default moment locale (lang) so Swedish
+	moment.locale('sv');
+
 	// Click on the menu button to show the main navigation drawer
   document.getElementById('menuButton').addEventListener('click', function() { showDrawer(); });
 

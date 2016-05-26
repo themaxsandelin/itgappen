@@ -107,6 +107,12 @@
 		color:#0996cf;
 	}
 
+	p.small {
+		font-size:10px;
+		font-weight:500;
+		line-height:20px;
+	}
+
   /* // Text styles */
 
 
@@ -185,6 +191,12 @@
 		margin:0 0 15px 0;
 		padding:0 0 0 50px;
 		position:relative;
+		cursor:pointer;
+
+		-webkit-user-select:none;
+		-moz-user-select:none;
+		-ms-user-select:none;
+		-o-user-select:none;
 	}
 
 	ul.events li:last-of-type {
@@ -232,7 +244,6 @@
 		line-height:12px;
 		text-transform:capitalize;
 		color:#899baa;
-		font-size:10px;
 	}
 
 	ul.events li .description {
@@ -264,6 +275,11 @@
 		overflow:hidden;
 		white-space: nowrap;
 		text-overflow:ellipsis;
+	}
+
+	ul.events li .description p.small {
+		line-height:12px;
+		color:#899baa;
 	}
 
 

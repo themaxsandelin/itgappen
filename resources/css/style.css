@@ -539,3 +539,66 @@
 	#settings.show {
 		transform:translate3d(0px,-100%,0px);
 	}
+
+
+	/* Calendar event details overlay styles */
+
+	.eventModal {
+		width:100%;
+		height:100%;
+		position:fixed;
+		top:0;
+		left:0;
+		z-index:12;
+		padding:15px;
+
+		justify-content:center;
+		align-items:center;
+
+		display:none;
+		opacity:0;
+
+		transition:opacity 0.3s ease;
+	}
+
+	.eventModal.display {
+		display:flex;
+	}
+
+	.eventModal.show {
+		opacity:1;
+	}
+
+	.eventModal.show .event {
+		transform:translate3d(0px,0px,0px);
+	}
+
+	.eventModal .event {
+		width:100%;
+		max-width:320px;
+		float:left;
+		padding:20px 20px 0;
+		border-radius:5px;
+		background:#fff;
+		box-shadow:0px 1px 4px rgba(0,0,0,0.1);
+
+		transform:translate3d(0px,50px,0px);
+
+		transition:transform 0.3s ease;
+	}
+
+	.eventModal .event p.close {
+		width:100%;
+		float:left;
+		text-align:center;
+		font-weight:500;
+		color:#899baa;
+		border-top:1px solid #eee;
+		line-height:40px;
+		cursor:pointer;
+
+		-webkit-user-select:none;
+		-moz-user-select:none;
+		-ms-user-select:none;
+		-o-user-select:none;
+	}

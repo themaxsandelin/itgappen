@@ -95,6 +95,44 @@
 	function eventItemClick(e) {
 		var i = parseInt(this.getAttribute('data-event-index'));
 		console.log(events[i]);
+		pushEventDetails(events[i]);
+		showEventModal();
+	}
+
+	function pushEventDetails(event) {
+		var container = document.querySelector('.eventModal .event .eventDetails');
+		container.innerHTML = '';
+
+		var title = document.createElement('h3');
+		title.innerHTML = event.summary;
+
+		container.appendChild(title);
+	}
+
+	document.getElementById('closeEvent').addEventListener('click', hideEventModal);
+
+	function showEventModal() {
+		var modal = document.querySelector('.eventModal'),
+				overlay = document.querySelector('#coreOverlay');
+
+		modal.classList.add('display');
+		overlay.classList.add('display');
+		setTimeout(function() {
+			modal.classList.add('show');
+			overlay.classList.add('show');
+		}, 20);
+	}
+
+	function hideEventModal() {
+		var modal = document.querySelector('.eventModal'),
+				overlay = document.querySelector('#coreOverlay');
+
+		modal.classList.remove('show');
+		overlay.classList.remove('show');
+		setTimeout(function() {
+			modal.classList.remove('display');
+			overlay.classList.remove('display');
+		}, 320);
 	}
 
 

@@ -15,6 +15,7 @@
 				key = 'AIzaSyBMBbVIAhAfKBn5K8XSU9W-YGyxAJ_YsUQ',
 				date = moment().toISOString();
 		return 'https://www.googleapis.com/calendar/v3/calendars/'+pre+id+post+'?key='+key+'&maxResults=2500&timeMin='+date+'&singleEvents=True&orderBy=startTime';
+		// return 'https://www.googleapis.com/calendar/v3/calendars/'+pre+id+post+'?key='+key+'&maxResults=2500&singleEvents=True&orderBy=startTime';
 	}
 
 	// An basic GET XMLHttpRequest to get the calendar events and then respond by running the callback function
@@ -74,21 +75,31 @@
 	// Creates a formatted string that tells the user the "duration" of the event
 	function setDurationLabel(start, end) {
 		// Check if the start and end times are at the same day
-		var today = (end.diff(start, 'days') === 0);
-		if (today) {
+		var days = end.diff(start, 'days');
+		if (days === 0) {
 			// Check the hourly difference between the times.
 			// If both of them have 00:00, set as an all day event
+			if (end.format('HHmm') === start.format('HHmm')) {
+				// Their time is the same, just check if it's 00:00, otherwise print the time
+				if (start.format('HHmm') === '0000' && end.format('HHmm') === '0000') return 'Hela dagen'; // The times were 00:00 so return all day
 
+				return end.format('HH:mm');
+			}
+			return start.format('HH:mm') + ' - ' + end.format('HH:mm');
+		} else if (days === 1) {
+			if (start.format('HHmm') === '0000' && end.format('HHmm') === '0000') return 'Hela dagen';
+
+			return start.format('D') + ' - ' + end.format('D ') + capitalizeString(end.format('MMMM'));
 		} else {
-			// Return a text describing the event duration based on the date difference
-			return 'Till den: ' + end.format('Do ') + capitalizeString(end.format('MMMM'));
+			// Get the month difference, if there is none you can print just the dates + one month
+			// otherwise print two repetitions for date and the month
+			var thisMonth = (parseInt((end.format('M')) - parseInt(start.format('M'))) === 0);
+			if (thisMonth) {
+				return start.format('D') + ' - ' + end.format('D ') + capitalizeString(end.format('MMMM'));
+			} else {
+				return start.format('D ') + capitalizeString(start.format('MMMM')) + ' - ' + end.format('D ') + capitalizeString(end.format('MMMM'));
+			}
 		}
-
-		console.log(
-			start.format('YYYY-MM-DD – HH:mm'),
-			end.format('YYYY-MM-DD – HH:mm')
-		);
-
 	}
 
 	// Click event for when clicking on an event item to show the detailed overlay for the event
@@ -100,7 +111,7 @@
 	}
 
 	function pushEventDetails(event) {
-		var container = document.querySelector('.eventModal .event .eventDetails');
+		var container = document.querySelector('.eventModal .event .details');
 		container.innerHTML = '';
 
 		var title = document.createElement('h3');
@@ -108,6 +119,9 @@
 
 		container.appendChild(title);
 	}
+
+
+	// Event modal scripts
 
 	document.getElementById('closeEvent').addEventListener('click', hideEventModal);
 

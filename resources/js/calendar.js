@@ -86,10 +86,8 @@
 				return end.format('HH:mm');
 			}
 			return start.format('HH:mm') + ' - ' + end.format('HH:mm');
-		} else if (days === 1) {
-			if (start.format('HHmm') === '0000' && end.format('HHmm') === '0000') return 'Hela dagen';
-
-			return start.format('D') + ' - ' + end.format('D ') + capitalizeString(end.format('MMMM'));
+		} else if (days === 1 && (start.format('HHmm') === '0000' && end.format('HHmm') === '0000')) {
+			return 'Hela dagen';
 		} else {
 			// Get the month difference, if there is none you can print just the dates + one month
 			// otherwise print two repetitions for date and the month
@@ -116,8 +114,59 @@
 
 		var title = document.createElement('h3');
 		title.innerHTML = event.summary;
-
 		container.appendChild(title);
+
+		var meta = document.createElement('div');
+		meta.classList.add('meta');
+
+		var date = document.createElement('p');
+		date.classList.add('small');
+		date.classList.add('date');
+
+		var time = document.createElement('p');
+		var appendTime = false;
+		time.classList.add('small');
+		time.classList.add('time');
+
+		// Check if the event start and end are on different dates, if they are then only show the date differences
+		// If they are on the same day, show the date and if the time is set to something different than 00:00 then show the time as well.
+
+		var start = event.start,
+				end = event.end;
+
+		var days = end.diff(start, 'days');
+		if (days === 0) {
+			// It's the same day
+			appendTime = true;
+			date.innerHTML = end.format('Do ') + capitalizeString(end.format('MMMM'));
+
+			if (end.format('HHmm') === start.format('HHmm')) {
+				// Their time is the same, just check if it's 00:00, otherwise print the time
+				if (start.format('HHmm') === '0000' && end.format('HHmm') === '0000') time.innerHTML = 'Hela dagen'; // The times were 00:00 so return all day
+
+				time.innerHTML = end.format('HH:mm');
+			}
+			time.innerHTML = start.format('HH:mm') + ' - ' + end.format('HH:mm');
+
+		} else {
+			// It's atleast one(1) days difference
+			var thisMonth = (parseInt((end.format('M')) - parseInt(start.format('M'))) === 0);
+			if (thisMonth) {
+				// It's the same month
+				date.innerHTML = start.format('D') + ' - ' + end.format('D ') + capitalizeString(end.format('MMMM'));
+			} else {
+				// It's two seperate months
+				date.innerHTML = start.format('D ') + capitalizeString(start.format('MMMM')) + ' - ' + end.format('D ') + capitalizeString(end.format('MMMM'));
+			}
+			if (days === 1 && (start.format('HHmm') === '0000' && end.format('HHmm') === '0000')) {
+				appendTime = true;
+				time.innerHTML = 'Hela dagen';
+			}
+		}
+
+		meta.appendChild(date);
+		if (appendTime) meta.appendChild(time); // Only append the time element if there is a time string
+		container.appendChild(meta);
 	}
 
 

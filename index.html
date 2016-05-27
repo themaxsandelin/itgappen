@@ -12,7 +12,13 @@
     <link rel="stylesheet" type="text/css" href="resources/css/reset.css">
     <link rel="stylesheet" type="text/css" href="resources/css/style.css">
 	</head>
-	<body data-active-page="schedule" ontouchstart="">
+	<body
+		ontouchstart=""
+		data-active-page="schedule"
+		data-selected-day="0"
+		data-selected-week="1"
+		data-display-weeks="false"
+	>
 
 		<!-- Fixed drawer -->
     <nav>
@@ -79,20 +85,46 @@
         </div>
       </div>
 
-			<!-- Header titles -->
+			<!-- Schedule titles -->
 			<div class="titles">
       	<h3 id="myTitle">Mitt schema</h3>
 				<h3 class="pull" id="otherTitle">Annat schema</h3>
 			</div>
 
+			<!-- Other titles -->
 			<h3 id="mainTitle"></h3>
 
+			<div class="right">
+				<!-- Week chooser -->
+				<div class="button" id="weeks">
+					<p>v.1</p>
+				</div>
+				<!-- Update buttons -->
+				<div class="button" id="update">
+					<img src="resources/img/icons/update.svg" alt="Update icon">
+				</div>
+			</div>
     </header>
+
+		<!-- Days tabs -->
+		<ul class="days">
+			<li data-day="0">Mån</li>
+			<li data-day="1">Tis</li>
+			<li data-day="2">Ons</li>
+			<li data-day="3">Tors</li>
+			<li data-day="4">Fre</li>
+		</ul>
+
+		<div class="weeks">
+
+		</div>
 
 		<!-- MAIN PAGES -->
 
 			<!-- Schedule page -->
-			<section id="schedule" class="display"></section>
+			<section id="schedule" class="display">
+
+			</section>
 
 			<!-- Calendar page -->
 			<section id="calendar">

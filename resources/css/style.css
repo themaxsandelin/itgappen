@@ -3,6 +3,9 @@
   body {
     background:#f1eff5;
 		padding:56px 0 0 0;
+		font-size:12px;
+		font-weight:500;
+		color:#2a383c;
   }
 
   body, input, button, textarea, select {
@@ -199,6 +202,10 @@
 		-o-user-select:none;
 	}
 
+	ul.events li:active {
+		background:#f9f9f9;
+	}
+
 	ul.events li:last-of-type {
 		margin:0;
 	}
@@ -310,7 +317,17 @@
     display:flex;
     justify-content:center;
     align-items:center;
+
+		-webkit-user-select:none;
+		-moz-user-select:none;
+		-ms-user-select:none;
+		-o-user-select:none;
   }
+
+	header .button p {
+		color:#fff;
+		font-weight:bold;
+	}
 
   @media only screen and (min-width:1025px) {
     header .button {
@@ -385,6 +402,46 @@
 		header .titles h3:active {
 			background:rgba(255,255,255,0.1);
 		}
+	}
+
+	header .button#weeks {
+		display:none;
+		position:relative;
+		overflow:hidden;
+	}
+
+	header .button#weeks:before {
+		content:'';
+		width:100%;
+		height:2px;
+		position:absolute;
+		left:0;
+		bottom:-2px;
+		background:#fff;
+
+		transition:transform 0.2s ease;
+	}
+
+	header .button#weeks:after {
+		content:'';
+		width:100%;
+		height:100%;
+		position:absolute;
+		left:0;
+		bottom:0;
+		z-index:1;
+		background:rgba(255,255,255,0.1);
+		opacity:0;
+
+		transition:opacity 0.2s ease;
+	}
+
+	body[data-active-page="schedule"] header .button#weeks { display:flex; }
+
+	body[data-display-weeks="true"] header .button#weeks:after { opacity:1; }
+
+	body[data-display-weeks="true"] header .button#weeks:before {
+		transform:translate3d(0px,-2px,0px);
 	}
 
   /* // Header styles */
@@ -492,6 +549,108 @@
   }
 
   /* // Menubutton styles */
+
+
+	/* Day tabs styles */
+
+	ul.days {
+		width:100%;
+		height:40px;
+		position:fixed;
+		top:0;
+		left:0;
+		z-index:9;
+		background:#fff;
+		box-shadow:0px 1px 4px rgba(0,0,0,0.1);
+
+		transition:transform 0.2s ease;
+	}
+
+	body[data-active-page="schedule"] ul.days {
+		transform:translate3d(0px,56px,0px);
+	}
+
+	ul.days:before {
+		content:'';
+		width:20%;
+		height:1px;
+		position:absolute;
+		bottom:0;
+		left:0;
+		background:#0996cf;
+
+		transition:transform 0.3s ease;
+	}
+
+	body[data-selected-day="1"] ul.days:before {
+		transform:translate3d(100%,0px,0px);
+	}
+
+	body[data-selected-day="2"] ul.days:before {
+		transform:translate3d(200%,0px,0px);
+	}
+
+	body[data-selected-day="3"] ul.days:before {
+		transform:translate3d(300%,0px,0px);
+	}
+
+	body[data-selected-day="4"] ul.days:before {
+		transform:translate3d(400%,0px,0px);
+	}
+
+	ul.days li {
+		width:20%;
+		height:40px;
+		float:left;
+		text-align:center;
+		line-height:40px;
+		color:#899baa;
+		cursor:pointer;
+
+		transition:color 0.2s ease;
+	}
+
+	ul.days li:active {
+		background:#f9f9f9;
+	}
+
+	body[data-selected-day="0"] ul.days li[data-day="0"] { color:#2a383c; }
+	body[data-selected-day="1"] ul.days li[data-day="1"] { color:#2a383c; }
+	body[data-selected-day="2"] ul.days li[data-day="2"] { color:#2a383c; }
+	body[data-selected-day="3"] ul.days li[data-day="3"] { color:#2a383c; }
+	body[data-selected-day="4"] ul.days li[data-day="4"] { color:#2a383c; }
+
+	/* // Day tabs styles */
+
+
+	/* Week slider styles */
+
+	.weeks {
+		width:100%;
+		height:40px;
+		position:fixed;
+		top:0;
+		left:0;
+		z-index:8;
+		background:#fff;
+		box-shadow:0px 1px 4px rgba(0,0,0,0.1);
+		opacity:0;
+
+		transition:transform 0.2s ease, opacity 0.2s ease;
+	}
+
+	body[data-active-page="schedule"] .weeks {
+		transform:translate3d(0px,56px,0px);
+	}
+
+	body[data-display-weeks="true"] .weeks {
+		transform:translate3d(0px,96px,0px);
+
+		opacity:1;
+	}
+
+
+	/* // Week slider styles */
 
 
 	/* Main content styles */
@@ -615,4 +774,40 @@
 		-moz-hyphens:auto;
 		-ms-hyphens:auto;
 		hyphens:auto;
+	}
+
+	.eventModal .event .details .meta {
+		width:100%;
+		float:left;
+		margin:5px 0 20px;
+	}
+
+	.eventModal .event .details .meta p.small {
+		color:#899baa;
+		line-height:13px;
+		position:relative;
+		padding:0 0 0 16px;
+	}
+
+	.eventModal .event .details .meta p.small.time {
+		margin:0 0 0 10px;
+	}
+
+	.eventModal .event .details .meta p.small:before {
+		content:'';
+		width:12px;
+		height:12px;
+		position:absolute;
+		top:0;
+		left:0;
+	}
+
+	.eventModal .event .details .meta p.small.date:before {
+		background:url(../img/icons/calendar.svg) no-repeat center center;
+		background-size:12px 12px;
+	}
+
+	.eventModal .event .details .meta p.small.time:before {
+		background:url(../img/icons/time.svg) no-repeat center center;
+		background-size:12px 12px;
 	}

@@ -371,6 +371,7 @@
 	}
 
 	header .titles h3 {
+		max-width:150px;
 		position:absolute;
 		top:0;
 		left:0;
@@ -668,7 +669,28 @@
 		display:block;
 	}
 
+	/* // Main content styles */
 
+
+	/* Schedule page */
+
+	section#schedule {
+		padding:40px 0 0 0;
+	}
+
+	section#schedule .schedules {
+		width:200%;
+		float:left;
+		position:relative;
+	}
+
+	section#schedule .schedules .schedule {
+		width:50%;
+		float:left;
+		position:relative;
+	}
+
+	/* // Schedule page */
 
 
 

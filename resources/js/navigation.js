@@ -10,7 +10,7 @@
 				'faq': 'Vanliga frågor',
 				'feedback': 'Skicka feedback'
 			};
-	
+
 	// Click on the menu button to show the main navigation drawer
   document.getElementById('menuButton').addEventListener('click', function() { showDrawer(); });
 
@@ -68,7 +68,7 @@
 		hideDrawer();
 		currentPage = page;
 		document.querySelector('body').setAttribute('data-active-page', page);
-		if (page !== 'schedule') document.getElementById('mainTitle').innerHTML = titles[page];
+		if (page !== 'schedule') document.getElementById('defaultTitle').innerHTML = titles[page];
 
 		document.querySelector('section.display').classList.remove('display');
 		document.getElementById(page).classList.add('display');

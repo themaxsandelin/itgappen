@@ -48,7 +48,7 @@
 		display:block;
 	}
 
-	body[data-active-page="schedule"] header.main #mainTitle {
+	body[data-active-page="schedule"] header.main #defaultTitle {
 		display:none;
 	}
 
@@ -368,6 +368,12 @@
 		position:relative;
 		overflow:hidden;
 		display:none;
+
+		-webkit-user-select:none;
+		-moz-user-select:none;
+		-ms-user-select:none;
+		-o-user-select:none;
+		user-select:none;
 	}
 
 	header .titles h3 {
@@ -377,11 +383,11 @@
 		left:0;
 	}
 
-	header .titles h3.pull {
+	body[data-active-schedule="main"] .titles h3#otherTitle {
 		transform:translate3d(0px,100%,0px);
 	}
 
-	header .titles h3.push {
+	body[data-active-schedule="other"] .titles h3#mainTitle {
 		transform:translate3d(0px,-100%,0px);
 	}
 
@@ -682,10 +688,22 @@
 		width:200%;
 		float:left;
 		position:relative;
+
+		transition:transform 0.3s ease;
+	}
+
+	body[data-active-schedule="other"] .schedules {
+		transform:translate3d(-50%,0px,0px);
 	}
 
 	section#schedule .schedules .schedule {
 		width:50%;
+		float:left;
+		position:relative;
+	}
+
+	section#schedule .schedules .schedule .slider {
+		width:100%;
 		float:left;
 		position:relative;
 	}

@@ -15,6 +15,7 @@
 	<body
 		ontouchstart=""
 		data-active-page="schedule"
+		data-active-schedule="main"
 		data-selected-day="0"
 		data-selected-week="1"
 		data-display-weeks="false"
@@ -87,12 +88,12 @@
 
 			<!-- Schedule titles -->
 			<div class="titles">
-      	<h3 id="myTitle">Mitt schema</h3>
+      	<h3 id="mainTitle">Mitt schema</h3>
 				<h3 class="pull" id="otherTitle">Annat schema</h3>
 			</div>
 
 			<!-- Other titles -->
-			<h3 id="mainTitle"></h3>
+			<h3 id="defaultTitle"></h3>
 
 			<div class="right">
 				<!-- Week chooser -->
@@ -127,12 +128,12 @@
 
 					<!-- Main schedule -->
 					<div class="schedule main">
-
+						<div class="slider" id="main"></div>
 					</div>
 
 					<!-- Other schedule -->
 					<div class="schedule other">
-
+						<div class="slider" id="other"></div>
 					</div>
 
 				</div>

@@ -571,6 +571,11 @@
 		box-shadow:0px 1px 4px rgba(0,0,0,0.1);
 
 		transition:transform 0.2s ease;
+
+		-webkit-user-select:none;
+		-moz-user-select:none;
+		-ms-user-select:none;
+		-o-user-select:none;
 	}
 
 	body[data-active-page="schedule"] ul.days {

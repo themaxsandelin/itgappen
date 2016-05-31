@@ -1,4 +1,15 @@
 
+	// Grab the basic number representation of the day of the week.
+	// But take into account that moment starts the week on Sunday(0) so fix that.
+	// Then just decrease the value by 1 to accomodate the week start (monday) being 1 and not 0
+	var d = ((parseInt(moment().format('d')) === 0) ? 7:parseInt(moment().format('d'))) - 1;
+
+	// Grab the day of the week number and make sure that if it is Friday, Saturday or Sunday you always set it to 4
+	var day = (d < 4) ? d:4;
+
+	var mainDay = day;
+	var otherDay = day;
+
 	// Main schedule slider
 	var mainSwiper = new Swiper('.swiper-container#main', {
 		onProgress: sliderMove,
@@ -14,6 +25,9 @@
 	});
 
 	function slideChange(swiper) {
+		if (document.querySelector('body').getAttribute('data-active-schedule') === 'main') mainDay = swiper.activeIndex;
+		else otherDay = swiper.activeIndex;
+
 		document.querySelector('body').setAttribute('data-selected-day', swiper.activeIndex);
 	}
 
@@ -30,13 +44,13 @@
 
 	function sliderMove(swiper, progress) {
 		var bar = document.querySelector('ul.days span');
-		var move = 100 * (4 * swiper.progress);
+		var m = 100 * (4 * swiper.progress);
 
 		bar.style.webkitTransform =
 		bar.style.mozTransform =
 		bar.style.msTransform =
 		bar.style.oTransform =
-		bar.style.transform = 'translate3d('+move+'%,0px,0px)';
+		bar.style.transform = 'translate3d('+m+'%,0px,0px)';
 	}
 
 	// Click on the main title
@@ -64,14 +78,42 @@
 
 		if (current !== day) {
 			document.querySelector('body').setAttribute('data-selected-day', day);
-			mainSwiper.slideTo(day);
+			if (document.querySelector('body').getAttribute('data-active-schedule') === 'main') mainSwiper.slideTo(day);
+			else otherSwiper.slideTo(day);
 		}
 	}
 
 	// Will switch between the two schedules based on which one is in view
 	function switchSchedules() {
-		var opposite = (document.querySelector('body').getAttribute('data-active-schedule') === 'main') ? 'other' : 'main';
-		document.querySelector('body').setAttribute('data-active-schedule', opposite);
+		var swiper;
+
+		if (document.querySelector('body').getAttribute('data-active-schedule') === 'main') {
+			document.querySelector('body').setAttribute('data-active-schedule', 'other');
+			document.querySelector('body').setAttribute('data-selected-day', otherDay);
+
+			swiper = otherSwiper;
+		} else {
+			document.querySelector('body').setAttribute('data-active-schedule', 'main');
+			document.querySelector('body').setAttribute('data-selected-day', mainDay);
+
+			swiper = mainSwiper;
+		}
+
+		var t = swiper.params.speed / 1000;
+		var m = 100 * (4 * swiper.progress);
+		var bar = document.querySelector('ul.days span');
+
+		bar.style.webkitTransition = '-webkit-transform '+t+'s ease';
+		bar.style.mozTransition = '-moz-transform '+t+'s ease';
+		bar.style.msTransition = '-ms-transform '+t+'s ease';
+		bar.style.oTransition = '-o-transform '+t+'s ease';
+		bar.style.transition = 'transform '+t+'s ease';
+
+		bar.style.webkitTransform =
+		bar.style.mozTransform =
+		bar.style.msTransform =
+		bar.style.oTransform =
+		bar.style.transform = 'translate3d('+m+'%,0px,0px)';
 	}
 
 	function scheduleUrlFactory(id) {
@@ -111,6 +153,7 @@
 				'</div>'
 			);
 		});
+		swiper.slideTo(day, 0);
 	}
 
 	var mainID = '{1AFAF6FA-4F7D-42FB-8916-97BE0AD20A91}';

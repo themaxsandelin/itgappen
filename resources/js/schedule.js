@@ -68,7 +68,7 @@
 	});
 
 	// Click event on the week button to show / hide the week slider
-	document.getElementById('weeks').addEventListener('click', function() {
+	document.getElementById('weekNumber').addEventListener('click', function() {
 		var display = (document.querySelector('body').getAttribute('data-display-weeks') === 'true') ? 'false':'true';
 		document.querySelector('body').setAttribute('data-display-weeks', display);
 	});
@@ -172,7 +172,7 @@
 		var activeSchedule = document.querySelector('body').getAttribute('data-active-schedule');
 		var week = (activeSchedule === 'main') ? mainWeek:otherWeek;
 
-		document.getElementById('weeks').innerHTML = '<p>v.'+week+'</p>';
+		document.getElementById('weekNumber').innerHTML = '<p>v.'+week+'</p>';
 	}
 
 	var mainID = '{1AFAF6FA-4F7D-42FB-8916-97BE0AD20A91}';

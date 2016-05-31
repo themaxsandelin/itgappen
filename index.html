@@ -10,6 +10,7 @@
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900">
 
     <link rel="stylesheet" type="text/css" href="resources/css/reset.css">
+		<link rel="stylesheet" type="text/css" href="resources/css/swiper.css">
     <link rel="stylesheet" type="text/css" href="resources/css/style.css">
 	</head>
 	<body
@@ -109,6 +110,7 @@
 
 		<!-- Days tabs -->
 		<ul class="days">
+			<span></span>
 			<li data-day="0">Mån</li>
 			<li data-day="1">Tis</li>
 			<li data-day="2">Ons</li>
@@ -128,12 +130,16 @@
 
 					<!-- Main schedule -->
 					<div class="schedule main">
-						<div class="slider" id="main"></div>
+						<div class="swiper-container" id="main">
+							<div class="swiper-wrapper"></div>
+						</div>
 					</div>
 
 					<!-- Other schedule -->
 					<div class="schedule other">
-						<div class="slider" id="other"></div>
+						<div class="swiper-container" id="other">
+							<div class="swiper-wrapper"></div>
+						</div>
 					</div>
 
 				</div>

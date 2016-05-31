@@ -577,32 +577,13 @@
 		transform:translate3d(0px,56px,0px);
 	}
 
-	ul.days:before {
-		content:'';
+	ul.days span {
 		width:20%;
 		height:1px;
 		position:absolute;
 		bottom:0;
 		left:0;
 		background:#0996cf;
-
-		transition:transform 0.3s ease;
-	}
-
-	body[data-selected-day="1"] ul.days:before {
-		transform:translate3d(100%,0px,0px);
-	}
-
-	body[data-selected-day="2"] ul.days:before {
-		transform:translate3d(200%,0px,0px);
-	}
-
-	body[data-selected-day="3"] ul.days:before {
-		transform:translate3d(300%,0px,0px);
-	}
-
-	body[data-selected-day="4"] ul.days:before {
-		transform:translate3d(400%,0px,0px);
 	}
 
 	ul.days li {
@@ -682,6 +663,7 @@
 
 	section#schedule {
 		padding:40px 0 0 0;
+		overflow:hidden;
 	}
 
 	section#schedule .schedules {
@@ -702,10 +684,18 @@
 		position:relative;
 	}
 
-	section#schedule .schedules .schedule .slider {
+	section#schedule .schedules .schedule .swiper-container {
+		width:100%;
+	}
+
+	section#schedule .schedules .schedule .swiper-container .swiper-wrapper .swiper-slide {
+		padding:15px;
+	}
+
+	section#schedule .schedules .schedule .swiper-container .swiper-wrapper .swiper-slide img {
 		width:100%;
 		float:left;
-		position:relative;
+		box-shadow:0px 1px 4px rgba(0,0,0,0.1);
 	}
 
 	/* // Schedule page */

@@ -616,6 +616,21 @@
 		color:#5e727c;
 	}
 
+	nav .content footer .logo	 {
+		width:100%;
+		float:left;
+		padding:8px 0 0 0;
+
+		display:flex;
+		justify-content:center;
+	}
+
+	nav .content footer .logo img {
+		width:40px;
+		float:left;
+		opacity:0.20;
+	}
+
   /* // Nav styles */
 
   /* Menubutton styles */

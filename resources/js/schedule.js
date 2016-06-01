@@ -27,6 +27,11 @@
 		onSlideChangeStart: slideChange
 	});
 
+	var weekSwiper = new Swiper('.swiper-container#weeks', {
+		slidesPerView: 5,
+		centeredSlides: true
+	});
+
 	// Update the selected day when the active swiper changes slide index.
 	function slideChange(swiper) {
 		if (document.querySelector('body').getAttribute('data-active-schedule') === 'main') mainDay = swiper.activeIndex;
@@ -175,9 +180,24 @@
 		document.getElementById('weekNumber').innerHTML = '<p>v.'+week+'</p>';
 	}
 
+	function populateWeekSlider() {
+		weekSwiper.removeAllSlides();
+		for (var w = 1; w < 53; w++) {
+			weekSwiper.appendSlide(
+				'<div class="swiper-slide">'+w+'</div>'
+			);
+		}
+		var current = document.querySelector('body').getAttribute('data-active-schedule');
+		var week = ((current === 'main') ? mainWeek:otherWeek) - 1;
+
+		weekSwiper.slideTo(week, 0);
+	}
+
 	var mainID = '{1AFAF6FA-4F7D-42FB-8916-97BE0AD20A91}';
 	var otherID = '{09EF1F69-CBD3-4FFC-B613-8967B2106FE9}';
 
 	pushScheduleImages(mainSwiper, scheduleUrlFactory(mainID) );
 	pushScheduleImages(otherSwiper, scheduleUrlFactory(otherID) );
+
 	pushWeekNumber();
+	populateWeekSlider();

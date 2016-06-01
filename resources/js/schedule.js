@@ -99,18 +99,23 @@
 	// Will switch between the two schedules based on which one is in view
 	function switchSchedules() {
 		var swiper;
+		var week;
 
 		if (document.querySelector('body').getAttribute('data-active-schedule') === 'main') {
 			document.querySelector('body').setAttribute('data-active-schedule', 'other');
 			document.querySelector('body').setAttribute('data-selected-day', otherDay);
 
 			swiper = otherSwiper;
+			week = otherWeek;
 		} else {
 			document.querySelector('body').setAttribute('data-active-schedule', 'main');
 			document.querySelector('body').setAttribute('data-selected-day', mainDay);
 
 			swiper = mainSwiper;
+			week = mainWeek;
 		}
+
+		weekSwiper.slideTo((week - 1), 300);
 
 		var t = swiper.params.speed / 1000;
 		var m = 100 * (4 * swiper.progress);
@@ -173,6 +178,8 @@
 		swiper.slideTo(day, 0);
 	}
 
+
+	// Appends the current week number to the week button in the main header
 	function pushWeekNumber() {
 		var activeSchedule = document.querySelector('body').getAttribute('data-active-schedule');
 		var week = (activeSchedule === 'main') ? mainWeek:otherWeek;
@@ -180,11 +187,12 @@
 		document.getElementById('weekNumber').innerHTML = '<p>v.'+week+'</p>';
 	}
 
+	// Loops through weeks to append each week to the slider and choose the current week
 	function populateWeekSlider() {
 		weekSwiper.removeAllSlides();
 		for (var w = 1; w < 53; w++) {
 			weekSwiper.appendSlide(
-				'<div class="swiper-slide">'+w+'</div>'
+				'<div class="swiper-slide" data-slide-index="'+(w-1)+'">'+w+'</div>'
 			);
 		}
 		var current = document.querySelector('body').getAttribute('data-active-schedule');
@@ -192,6 +200,14 @@
 
 		weekSwiper.slideTo(week, 0);
 	}
+
+	document.getElementById('nextWeek').addEventListener('click', function() {
+		weekSwiper.slideNext();
+	});
+
+	document.getElementById('previousWeek').addEventListener('click', function() {
+		weekSwiper.slidePrev();
+	});
 
 	var mainID = '{1AFAF6FA-4F7D-42FB-8916-97BE0AD20A91}';
 	var otherID = '{09EF1F69-CBD3-4FFC-B613-8967B2106FE9}';

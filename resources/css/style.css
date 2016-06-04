@@ -1012,6 +1012,10 @@
 		transition:transform 0.3s ease;
 	}
 
+	body[data-render="ios"] #settings {
+		padding:76px 0 0 0;
+	}
+
 	#settings header {
 		background:#2a383c;
 		position:absolute;

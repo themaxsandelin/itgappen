@@ -5,13 +5,14 @@
 	var d = ((parseInt(moment().format('d')) === 0) ? 7:parseInt(moment().format('d'))) - 1;
 	// Grab the day of the week number and make sure that if it is Friday, Saturday or Sunday you always set it to 4
 	var day = (d < 4) ? d:4;
+	var week = parseInt(moment().format('w'));
 
 	// Main date variables
 	var mainDay = day;
-	var mainWeek = moment().format('w');
+	var mainWeek = week;
 	// Other date variables
 	var otherDay = day;
-	var otherWeek = moment().format('w');
+	var otherWeek = week;
 
 	// Main schedule slider
 	var mainSwiper = new Swiper('.swiper-container#main', {
@@ -191,14 +192,22 @@
 	function populateWeekSlider() {
 		weekSwiper.removeAllSlides();
 		for (var w = 1; w < 53; w++) {
+			var classlist = 'swiper-slide';
+
+			if (w === parseInt(moment().format('w'))) classlist += ' currentWeek';
 			weekSwiper.appendSlide(
-				'<div class="swiper-slide" data-slide-index="'+(w-1)+'">'+w+'</div>'
+				'<div class="'+classlist+'" data-slide-index="'+(w-1)+'" onclick="changeWeek(event)">'+w+'</div>'
 			);
 		}
 		var current = document.querySelector('body').getAttribute('data-active-schedule');
 		var week = ((current === 'main') ? mainWeek:otherWeek) - 1;
 
 		weekSwiper.slideTo(week, 0);
+	}
+
+	function changeWeek(e) {
+		var i = parseInt(e.target.getAttribute('data-slide-index'));
+		weekSwiper.slideTo(i, 300);
 	}
 
 	document.getElementById('nextWeek').addEventListener('click', function() {

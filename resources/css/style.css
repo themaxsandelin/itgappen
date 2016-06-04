@@ -792,6 +792,10 @@
 		font-size:14px;
 	}
 
+	.weeks .swiper-container .swiper-wrapper .swiper-slide.currentWeek {
+		color:#0996cf;
+	}
+
 	body[data-render="ios"] .weeks {
 		top:20px;
 	}

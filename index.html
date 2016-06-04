@@ -52,15 +52,7 @@
 
 				<!-- Info menu -->
 				<ul class="drawerMenu">
-					<li data-page="news">Nyheter</li>
 					<li data-page="union">Elevkåren</li>
-					<li data-page="developers">Utvecklare</li>
-				</ul>
-				<div class="splitter"></div>
-
-				<!-- App menu -->
-				<ul class="drawerMenu">
-					<li data-page="faq">Vanliga frågor</li>
 					<li data-page="feedback">Skicka feedback</li>
 				</ul>
 				<div class="splitter"></div>
@@ -103,7 +95,7 @@
 				<div class="button" id="weekNumber"></div>
 				<!-- Update buttons -->
 				<div class="button" id="update">
-					<img src="resources/img/icons/update.svg" alt="Update icon">
+					<img src="resources/img/icons/update.svg" alt="Uppdatera ikon">
 				</div>
 			</div>
     </header>
@@ -203,8 +195,59 @@
         </div>
 				<h3>Inställningar</h3>
 			</header>
+			<div class="content">
 
+				<!-- Double schedule field -->
+				<div class="field toggleDoubleSchedule">
+					<div class="box">
+						<h5>Dubbla scheman</h5>
+						<!-- Schedule switch -->
+						<div class="switchWrap">
+							<div class="switch" id="doubleSchedule"><div class="ball"></div></div>
+						</div>
+					</div>
+				</div>
 
+				<hr>
+
+				<!-- Main schedule field -->
+				<label>Mitt schema</label>
+				<div class="field">
+					<!-- Name -->
+					<div class="box">
+						<input type="text" id="mainInput" placeholder="Välj ett namn för ditt schema.." value="Mitt schema">
+						<div class="button clear" id="clearMain"></div>
+					</div>
+					<!-- Source -->
+					<select id="mainSource">
+						<option value="0">Välj schema..</option>
+					</select>
+				</div>
+
+				<!-- Other schedule field -->
+				<label>Annat schema</label>
+				<div class="field">
+					<!-- Name -->
+					<div class="box">
+						<input type="text" id="otherInput" placeholder="Välj ett namn för ditt andra schema.." value="Annat schema">
+						<div class="button clear" id="clearOther"></div>
+					</div>
+					<!-- Source -->
+					<select id="otherSource">
+						<option value="0">Välj schema..</option>
+					</select>
+				</div>
+
+				<!-- Calendar field -->
+				<label>Kalender</label>
+				<div class="field">
+					<!-- Calendar source -->
+					<select id="calendarSource">
+						<option value="0">Välj klass..</option>
+					</select>
+				</div>
+
+			</div>
 		</div>
 
 		<!-- CALENDAR EVENT DETAILS MODAL -->

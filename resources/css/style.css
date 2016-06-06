@@ -2,7 +2,7 @@
 
 	/*
 		----------------------------------------
-			Colors
+			Primary colors
 		----------------------------------------
 		- Ocean:		#0996cf | rgb(9,150,207);
 		- Flower:		#ea1189 | rgb(234,17,137);
@@ -1100,7 +1100,7 @@
 
 	.field h5 {
 		color:#2a383c;
-		font-size:14px;
+		font-size:15px;
 		padding:13px 17px;
 
 		-webkit-user-select:none;
@@ -1131,7 +1131,7 @@
 	}
 
 	.field .box:active {
-		background:#f7f7f7;
+		background:#f9f9f9;
 	}
 
 	.field .box:first-of-type {
@@ -1139,7 +1139,7 @@
 	}
 
 	.field .box:nth-child(2n+2) {
-		background-color:#f7f7f7;
+		background-color:#f9f9f9;
 		border-top-right-radius:0px;
 		border-top-left-radius:0px;
 	}
@@ -1183,7 +1183,7 @@
 	}
 
 	.field .box:nth-child(2n+2) .button:active {
-		background-color:#f7f7f7;
+		background-color:#f9f9f9;
 	}
 
 	.field .box .button.clear {
@@ -1206,7 +1206,7 @@
 		float:left;
 		padding:0 18px 0 0;
 		text-indent:18px;
-		font-size:14px;
+		font-size:15px;
 		font-weight:500;
 		color:#2a383c;
 		border-radius:0px;
@@ -1230,7 +1230,7 @@
 		background-size:50px;
 		background-position:top right;
 		background-color:#f7f7f7;
-		font-size:14px;
+		font-size:15px;
 		font-weight:500;
 		color:#63727c;
 		padding:0 18px;

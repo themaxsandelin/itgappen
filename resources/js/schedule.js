@@ -226,3 +226,5 @@
 
 	pushWeekNumber();
 	populateWeekSlider();
+
+	document.querySelector('body').setAttribute('data-selected-day', mainDay);

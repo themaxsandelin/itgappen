@@ -14,8 +14,8 @@
 				post = '@resource.calendar.google.com/events/',
 				key = 'AIzaSyBMBbVIAhAfKBn5K8XSU9W-YGyxAJ_YsUQ',
 				date = moment().toISOString();
-		return 'https://www.googleapis.com/calendar/v3/calendars/'+pre+id+post+'?key='+key+'&maxResults=2500&timeMin='+date+'&singleEvents=True&orderBy=startTime';
-		// return 'https://www.googleapis.com/calendar/v3/calendars/'+pre+id+post+'?key='+key+'&maxResults=2500&singleEvents=True&orderBy=startTime';
+		// return 'https://www.googleapis.com/calendar/v3/calendars/'+pre+id+post+'?key='+key+'&maxResults=2500&timeMin='+date+'&singleEvents=True&orderBy=startTime';
+		return 'https://www.googleapis.com/calendar/v3/calendars/'+pre+id+post+'?key='+key+'&maxResults=2500&singleEvents=True&orderBy=startTime';
 	}
 
 	// An basic GET XMLHttpRequest to get the calendar events and then respond by running the callback function
@@ -145,9 +145,9 @@
 				if (start.format('HHmm') === '0000' && end.format('HHmm') === '0000') time.innerHTML = 'Hela dagen'; // The times were 00:00 so return all day
 
 				time.innerHTML = end.format('HH:mm');
-			}
-			time.innerHTML = start.format('HH:mm') + ' - ' + end.format('HH:mm');
-
+			} else {
+        time.innerHTML = start.format('HH:mm') + ' - ' + end.format('HH:mm');
+      }
 		} else {
 			// It's atleast one(1) days difference
 			var thisMonth = (parseInt((end.format('M')) - parseInt(start.format('M'))) === 0);

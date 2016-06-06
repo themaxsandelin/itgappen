@@ -27,3 +27,23 @@
 		target.focus();
 	}
 
+	function getSchedules(callback) {
+		var req = new XMLHttpRequest();
+		req.open('GET', 'http://139.59.171.126:1337/api/v2/schedules', true);
+		req.send();
+		req.onreadystatechange = function() {
+			if (req.readyState == 4 && req.status == 200) callback(JSON.parse(req.responseText));
+		}
+	}
+
+	function pushCalendarLists(list) {
+		var settings = document.getElementById('calendarSource');
+		settings.innerHTML = '<option value="0">Välj klass..</option>';
+		list.forEach(function(item, i) {
+			settings.innerHTML += '<option value="'+item.calendar+'">'+item.name+'</option>';
+		});
+	}
+
+	getSchedules(function(list) {
+		pushCalendarLists(list.classes);
+	});

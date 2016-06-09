@@ -83,8 +83,8 @@
 
 			<!-- Schedule titles -->
 			<div class="titles">
-      	<h3 id="mainTitle">Mitt schema</h3>
-				<h3 class="pull" id="otherTitle">Annat schema</h3>
+      	<h3 id="mainTitle"></h3>
+				<h3 class="pull" id="otherTitle"></h3>
 			</div>
 
 			<!-- Other titles -->
@@ -215,11 +215,11 @@
 				<div class="field">
 					<!-- Name -->
 					<div class="box btn">
-						<input type="text" id="mainInput" placeholder="Välj ett namn för ditt schema.." value="Mitt schema">
+						<input type="text" id="mainInput" placeholder="Välj ett namn för ditt schema.." value="">
 						<div class="button clear" id="clearMain"></div>
 					</div>
 					<!-- Source -->
-					<div class="box">
+					<div class="box" id="mainSource">
 						<h5 id="mainSourceName">Ändra schema</h5>
 						<div class="button tab"></div>
 					</div>
@@ -230,11 +230,11 @@
 				<div class="field">
 					<!-- Name -->
 					<div class="box btn">
-						<input type="text" id="otherInput" placeholder="Välj ett namn för ditt andra schema.." value="Annat schema">
+						<input type="text" id="otherInput" placeholder="Välj ett namn för ditt andra schema.." value="">
 						<div class="button clear" id="clearOther"></div>
 					</div>
 					<!-- Source -->
-					<div class="box">
+					<div class="box" id="otherSource">
 						<h5 id="otherSourceName">Ändra schema</h5>
 						<div class="button tab"></div>
 					</div>
@@ -252,16 +252,37 @@
 				<hr>
 
 				<div class="buttons">
-					<button class="warning mrg">Återställ</button>
-					<button class="primary">Exportera</button>
+					<button class="warning mrg" id="reset">Återställ</button>
+					<button class="primary" id="export">Exportera</button>
 				</div>
 
 			</div>
 		</div>
 
+    <!-- SCHEDULE PICKER MODAL -->
+    <div class="modalWrapper" id="picker">
+      <div class="modal back">
+        <!-- Type swiper -->
+        <div class="field">
+          <div class="swiper-container" id="scheduleType">
+            <div class="swiper-wrapper">
+              <div class="swiper-slide">Elev</div>
+              <div class="swiper-slide">Klass</div>
+              <div class="swiper-slide">Lärare</div>
+              <div class="swiper-slide">Sal</div>
+            </div>
+          </div>
+        </div>
+        <!-- Schedule list -->
+        <div class="field">
+          <select id="allSource"></select>
+        </div>
+      </div>
+    </div>
+
 		<!-- CALENDAR EVENT DETAILS MODAL -->
-		<div class="eventModal">
-			<div class="event">
+		<div class="modalWrapper" id="event">
+			<div class="modal">
 				<div class="details"></div>
 				<p class="close" id="closeEvent">Stäng</p>
 			</div>
@@ -272,11 +293,12 @@
 		<script src="resources/js/libs/moment.js"></script>
 		<script src="resources/js/libs/swiper.js"></script>
 		<script src="resources/js/libs/fastclick.js"></script>
-    <script src="resources/js/main.js"></script>
+
+
+    <script src="resources/js/settings.js"></script>
 		<script src="resources/js/navigation.js"></script>
 		<script src="resources/js/schedule.js"></script>
 		<script src="resources/js/calendar.js"></script>
-		<script src="resources/js/settings.js"></script>
 
 	</body>
 </html>

@@ -103,13 +103,12 @@
 	// Click event for when clicking on an event item to show the detailed overlay for the event
 	function eventItemClick(e) {
 		var i = parseInt(this.getAttribute('data-event-index'));
-		console.log(events[i]);
 		pushEventDetails(events[i]);
-		showEventModal();
+		showModal('#event');
 	}
 
 	function pushEventDetails(event) {
-		var container = document.querySelector('.eventModal .event .details');
+		var container = document.querySelector('#event .modal .details');
 		container.innerHTML = '';
 
 		var title = document.createElement('h3');
@@ -172,11 +171,13 @@
 
 	// Event modal scripts
 
-	document.getElementById('closeEvent').addEventListener('click', hideEventModal);
+	document.getElementById('closeEvent').addEventListener('click', function() {
+    hideModal('#event');
+  });
 
-	function showEventModal() {
-		var modal = document.querySelector('.eventModal'),
-				overlay = document.querySelector('#coreOverlay');
+	function showModal(sel) {
+		var modal = document.querySelector(sel);
+    var overlay = document.querySelector('#coreOverlay');
 
 		modal.classList.add('display');
 		overlay.classList.add('display');
@@ -186,9 +187,9 @@
 		}, 20);
 	}
 
-	function hideEventModal() {
-		var modal = document.querySelector('.eventModal'),
-				overlay = document.querySelector('#coreOverlay');
+	function hideModal(sel) {
+		var modal = document.querySelector(sel);
+    var overlay = document.querySelector('#coreOverlay');
 
 		modal.classList.remove('show');
 		overlay.classList.remove('show');

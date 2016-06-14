@@ -13,21 +13,29 @@
 
   var typeSwiper = new Swiper('.swiper-container#scheduleType', {
     observer: true,
-    observeParents: true
+    observeParents: true,
+		onSlideChangeStart: function(swiper) {
+			console.log(swiper.activeIndex);
+		}
   });
 
+  // Retrieves stored settings from localStorage, though if there is none(null) it returns a base object for settings
   function getStoredSettings() {
-    var stored = localStorage.getItem('itgappen_settings');
-    // return (stored !== null) ? JSON.parse(stored):{};
+		var stored = (localStorage.getItem('itgappen_settings')) ? JSON.parse(localStorage.getItem('itgappen_settings')):{};
+    var keys = Object.keys(stored);
 
-    if (stored === null) {
-      stored = {}
-    } else {
-      stored = JSON.parse(stored);
-    }
+    if (keys.indexOf('double') === -1) stored.double = true;
+		if (!stored.main) stored.main = {};
+		if (!stored.other) stored.other = {};
 
-    if (!stored.main) stored.main = { title: 'Mitt schema' };
-    if (!stored.other) stored.other = { title: 'Annat schema' };
+		if (!stored.main.title) stored.main.title = 'Mitt schema';
+		if (!stored.other.title) stored.other.title = 'Annat schema';
+
+		if (!stored.main.id) stored.main.id = '{1AFAF6FA-4F7D-42FB-8916-97BE0AD20A91}';
+		if (!stored.other.id) stored.other.id = '{09EF1F69-CBD3-4FFC-B613-8967B2106FE9}';
+
+		if (!stored.main.name) stored.main.name = '2C Joel Eriksson';
+		if (!stored.other.name) stored.other.name = 'Johan Kivi';
 
     return stored;
   }
@@ -71,6 +79,8 @@
   function toggleDoubleSchedule(e) {
     var sw = document.getElementById('doubleSchedule');
     sw.classList.toggle('on');
+    settings.double = !settings.double;
+    saveSettings();
   }
 
   // Change event of the calendar source, update the settings object and save the settings.
@@ -80,11 +90,12 @@
       name: e.target.options[e.target.selectedIndex].text
     };
 
-    if (cal.id !== '0') 
+    if (cal.id !== '0')
       settings.calendar = cal;
       saveSettings();
   }
 
+  // Handles the output (UI) of both the main and other scheule's title.
   function titleChanged(e) {
     var id = e.target.id;
     var val = e.target.value;
@@ -99,8 +110,13 @@
     if (val === '') return e.target.value = def;
 
     if (val !== def) {
-      if (id === 'mainInput') settings.main.title = val;
-      else settings.other.title = val;
+      if (id === 'mainInput') {
+        settings.main.title = val
+        setupTitles('main', val);
+      } else {
+        settings.other.title = val;
+        setupTitles('other', val);
+      }
 
       saveSettings();
     }
@@ -120,8 +136,9 @@
   }
 
   function updateSettingsValues() {
-    // Setup calendar value
-    if (settings.calendar) document.getElementById('calendarSource').value = settings.calendar.id;
+    console.log(settings);
+    // Setup double schedules
+    if (settings.double) document.getElementById('doubleSchedule').classList.add('on');
 
     // Setup main schedule values
     if (settings.main) {
@@ -132,6 +149,9 @@
     if (settings.other) {
       if (settings.other.title) setupTitles('other', settings.other.title);
     }
+
+    // Setup calendar value
+    if (settings.calendar) document.getElementById('calendarSource').value = settings.calendar.id;
   }
 
   // Basic setup that calls methods for setting up the app.

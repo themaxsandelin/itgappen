@@ -14,6 +14,8 @@
 	var otherDay = day;
 	var otherWeek = week;
 
+	var switchingSchedule = false;
+
 	// Main schedule slider
 	var mainSwiper = new Swiper('.swiper-container#main', {
 		onProgress: sliderMove,
@@ -30,15 +32,34 @@
 
 	var weekSwiper = new Swiper('.swiper-container#weeks', {
 		slidesPerView: 5,
-		centeredSlides: true
+		centeredSlides: true,
+		onSlideChangeStart: weekChange
 	});
+
+	function weekChange(swiper) {
+		if (switchingSchedule) return;
+
+		var w = swiper.activeIndex + 1;
+		var a = document.querySelector('body').getAttribute('data-active-schedule');
+		var s = (a === 'main') ? mainSwiper:otherSwiper;
+		var i = (a === 'main') ? settings.main.id:settings.other.id;
+		var d = (a === 'main') ? mainDay:otherDay;
+
+		if (a === 'main') mainWeek = w;
+		else otherWeek = w;
+
+		pushScheduleImages(s, scheduleUrlFactory(i, w), d);
+	}
 
 	// Update the selected day when the active swiper changes slide index.
 	function slideChange(swiper) {
-		if (document.querySelector('body').getAttribute('data-active-schedule') === 'main') mainDay = swiper.activeIndex;
+		var i = swiper.container[0].id;
+		var s = document.querySelector('body').getAttribute('data-active-schedule');
+
+		if (s === 'main') mainDay = swiper.activeIndex;
 		else otherDay = swiper.activeIndex;
 
-		document.querySelector('body').setAttribute('data-selected-day', swiper.activeIndex);
+		if (s === i) document.querySelector('body').setAttribute('data-selected-day', swiper.activeIndex);
 	}
 
 	// Set transition on the day bar when the swiper changes it's transition
@@ -65,26 +86,6 @@
 		bar.style.transform = 'translate3d('+m+'%,0px,0px)';
 	}
 
-	// Click on the main title
-	document.querySelector('.titles').addEventListener('click', function() {
-		if (currentPage === 'schedule') {
-			// You are on the schedule page, switch between schedules
-			switchSchedules();
-		}
-	});
-
-	// Click event on the week button to show / hide the week slider
-	document.getElementById('weekNumber').addEventListener('click', function() {
-		var display = (document.querySelector('body').getAttribute('data-display-weeks') === 'true') ? 'false':'true';
-		document.querySelector('body').setAttribute('data-display-weeks', display);
-	});
-
-	// Click on the days to change day
-	var days = document.querySelectorAll('ul.days li');
-	for (var d = 0; d < days.length; d++) {
-		days[d].addEventListener('click', dayClick);
-	}
-
 	// Handle the click even of a day tab
 	function dayClick(e) {
 		var day = e.target.getAttribute('data-day');
@@ -99,6 +100,8 @@
 
 	// Will switch between the two schedules based on which one is in view
 	function switchSchedules() {
+		switchingSchedule = true;
+
 		var swiper;
 		var week;
 
@@ -116,8 +119,6 @@
 			week = mainWeek;
 		}
 
-		weekSwiper.slideTo((week - 1), 300);
-
 		var t = swiper.params.speed / 1000;
 		var m = 100 * (4 * swiper.progress);
 		var bar = document.querySelector('ul.days span');
@@ -134,14 +135,19 @@
 		bar.style.oTransform =
 		bar.style.transform = 'translate3d('+m+'%,0px,0px)';
 
+		weekSwiper.slideTo((week - 1), 300);
+
 		pushWeekNumber();
+
+		setTimeout(function() {
+			switchingSchedule = false;
+		}, 300);
 	}
 
 	// Factory function to generate an array of URLs for all days of the week based on the {id} parameter
-	function scheduleUrlFactory(id) {
+	function scheduleUrlFactory(id, week) {
 		var width = window.innerWidth - 30;
 		var height = width * 3;
-		var week = moment().format('w');
 
 		var days = {
 			1: 1,
@@ -167,7 +173,7 @@
 	}
 
 	// Push the schedule images to the {swiper} parameter using the {urls} array parameter
-	function pushScheduleImages(swiper, urls) {
+	function pushScheduleImages(swiper, urls, day) {
 		swiper.removeAllSlides();
 		urls.forEach(function(url, i) {
 			swiper.appendSlide(
@@ -205,9 +211,38 @@
 		weekSwiper.slideTo(week, 0);
 	}
 
+	// Click handler for the week slides
 	function changeWeek(e) {
 		var i = parseInt(e.target.getAttribute('data-slide-index'));
 		weekSwiper.slideTo(i, 300);
+	}
+
+	pushScheduleImages(mainSwiper, scheduleUrlFactory(settings.main.id, mainWeek), mainDay);
+	pushScheduleImages(otherSwiper, scheduleUrlFactory(settings.other.id, otherWeek), otherDay);
+
+	pushWeekNumber();
+	populateWeekSlider();
+
+	document.querySelector('body').setAttribute('data-selected-day', mainDay);
+
+	// Click on the main title
+	document.querySelector('.titles').addEventListener('click', function() {
+		if (currentPage === 'schedule') {
+			// You are on the schedule page, switch between schedules
+			switchSchedules();
+		}
+	});
+
+	// Click event on the week button to show / hide the week slider
+	document.getElementById('weekNumber').addEventListener('click', function() {
+		var display = (document.querySelector('body').getAttribute('data-display-weeks') === 'true') ? 'false':'true';
+		document.querySelector('body').setAttribute('data-display-weeks', display);
+	});
+
+	// Click on the days to change day
+	var days = document.querySelectorAll('ul.days li');
+	for (var d = 0; d < days.length; d++) {
+		days[d].addEventListener('click', dayClick);
 	}
 
 	document.getElementById('nextWeek').addEventListener('click', function() {
@@ -217,14 +252,3 @@
 	document.getElementById('previousWeek').addEventListener('click', function() {
 		weekSwiper.slidePrev();
 	});
-
-	var mainID = '{1AFAF6FA-4F7D-42FB-8916-97BE0AD20A91}';
-	var otherID = '{09EF1F69-CBD3-4FFC-B613-8967B2106FE9}';
-
-	pushScheduleImages(mainSwiper, scheduleUrlFactory(mainID) );
-	pushScheduleImages(otherSwiper, scheduleUrlFactory(otherID) );
-
-	pushWeekNumber();
-	populateWeekSlider();
-
-	document.querySelector('body').setAttribute('data-selected-day', mainDay);

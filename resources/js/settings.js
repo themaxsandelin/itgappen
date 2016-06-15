@@ -10,13 +10,14 @@
 
 	var double = true;
   var settings = getStoredSettings();
+	var schedules = {};
+
+	var tempSchedule = {};
 
   var typeSwiper = new Swiper('.swiper-container#scheduleType', {
     observer: true,
     observeParents: true,
-		onSlideChangeStart: function(swiper) {
-			console.log(swiper.activeIndex);
-		}
+		onSlideChangeStart: updatePickerType
   });
 
   // Retrieves stored settings from localStorage, though if there is none(null) it returns a base object for settings
@@ -36,6 +37,8 @@
 
 		if (!stored.main.name) stored.main.name = '2C Joel Eriksson';
 		if (!stored.other.name) stored.other.name = 'Johan Kivi';
+
+		console.log(stored);
 
     return stored;
   }
@@ -136,29 +139,116 @@
   }
 
   function updateSettingsValues() {
-    console.log(settings);
     // Setup double schedules
     if (settings.double) document.getElementById('doubleSchedule').classList.add('on');
 
     // Setup main schedule values
     if (settings.main) {
       if (settings.main.title) setupTitles('main', settings.main.title);
+			if (settings.main.name) document.getElementById('mainSourceName').innerHTML = settings.main.name;
     }
 
     // Setup other schedule values
     if (settings.other) {
       if (settings.other.title) setupTitles('other', settings.other.title);
+			if (settings.other.name) document.getElementById('otherSourceName').innerHTML = settings.other.name;
     }
 
     // Setup calendar value
     if (settings.calendar) document.getElementById('calendarSource').value = settings.calendar.id;
   }
 
+	function resetPicker() {
+		typeSwiper.slideTo(0, 0);
+		setPickerList('students', schedules.students);
+	}
+
+	function updatePickerType(swiper) {
+		var i = swiper.activeIndex;
+		var type;
+		var list;
+		var prev = document.getElementById('backType');
+		var next = document.getElementById('forwardType');
+
+		if (i === 0) {
+			type = 'students';
+			list = schedules.students;
+			prev.classList.add('disabled');
+		} else {
+			prev.classList.remove('disabled');
+			if (i === 3) {
+				next.classList.add('disabled');
+
+				type = 'classrooms';
+				list = schedules.classrooms;
+			} else {
+				next.classList.remove('disabled');
+
+				if (i === 1) {
+					type = 'classes';
+					list = schedules.classes;
+				} else if (i === 2) {
+					type = 'teachers';
+					list = schedules.teachers;
+				}
+			}
+		}
+
+		setPickerList(type, list);
+	}
+
+	function setPickerList(type, list) {
+		var select = document.getElementById('allSource');
+		var text;
+		if (type === 'students') text = 'Välj elev..';
+		else if (type === 'teachers') text = 'Välj lärare..';
+		else if (type === 'classes') text = 'Välj klass..';
+		else text = 'Välj klassrum..';
+
+		select.innerHTML = '<option selected value="0">'+text+'</option>';
+		for (var s = 0; s < list.length; s++) {
+			var item = list[s];
+			var option = document.createElement('option');
+			option.value = item.schedule;
+			option.innerHTML = item.name;
+
+			select.appendChild(option);
+			// select.innerHTML += '<option value="'+item.schedule+'">'+item.name+'</option>';
+		}
+	}
+
+	function scheduleChange(el) {
+		var id = el.value;
+		if (id !== '0') {
+			tempSchedule = {
+				id: id,
+				name: el.options[el.selectedIndex].text
+			};
+
+			document.getElementById('savePick').classList.remove('disabled');
+		} else {
+			document.getElementById('savePick').classList.add('disabled');
+		}
+	}
+
+	function saveScheduleChange() {
+		var type = document.getElementById('picker').getAttribute('data-pick-for');
+		if (type === 'main') {
+			settings.main.id = tempSchedule.id;
+			settings.main.name = tempSchedule.name;
+		} else {
+			settings.other.id = tempSchedule.id;
+			settings.other.name = tempSchedule.name;
+		}
+
+		saveSettings();
+		hideModal('#picker');
+	}
+
   // Basic setup that calls methods for setting up the app.
   function setupActions() {
     updateSettingsValues();
   }
-
 
   // Add click event for all double schedule toggles.
   var items = document.querySelectorAll('.toggleDoubleSchedule');
@@ -167,6 +257,7 @@
   }
 
   getSchedules(function(list) {
+		schedules = list;
     pushCalendarLists(list.classes);
 
     // Run the basic setup
@@ -179,7 +270,16 @@
 
   // Click to change the source of the main schedule
   document.getElementById('mainSource').addEventListener('click', function() {
+		document.getElementById('picker').setAttribute('data-pick-for', 'main');
     showModal('#picker');
+		resetPicker();
+  });
+
+	// Click to change the source of the other schedule
+  document.getElementById('otherSource').addEventListener('click', function() {
+		document.getElementById('picker').setAttribute('data-pick-for', 'other');
+    showModal('#picker');
+		resetPicker();
   });
 
   // Change the value of the calendar source
@@ -190,3 +290,31 @@
 
   // Blur of the other schedule title input, check for updates
   document.getElementById('otherInput').addEventListener('blur', titleChanged);
+
+	// Change schedule type (backward)
+	document.getElementById('backType').addEventListener('click', function() {
+		typeSwiper.slidePrev();
+	});
+
+	// Change schedule type (forward)
+	document.getElementById('forwardType').addEventListener('click', function() {
+		typeSwiper.slideNext();
+	});
+
+	// Pick up change event on the schedule select element
+	document.getElementById('allSource').addEventListener('change', function() {
+		scheduleChange(this);
+	});
+
+	// Cancel schedule change
+	document.getElementById('abortPick').addEventListener('click', function() {
+		hideModal('#picker');
+	});
+
+	// Save schedule change
+	document.getElementById('savePick').addEventListener('click', function() {
+		var disabled = this.classList.contains('disabled');
+		if (!disabled) {
+			saveScheduleChange();
+		}
+	});

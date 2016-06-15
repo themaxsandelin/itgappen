@@ -241,31 +241,67 @@
 		</div>
 
     <!-- SCHEDULE PICKER MODAL -->
-    <div class="modalWrapper" id="picker">
-      <div class="modal back">
-        <!-- Type swiper -->
-        <div class="field">
-          <div class="swiper-container" id="scheduleType">
-            <div class="swiper-wrapper">
-              <div class="swiper-slide">Elev</div>
-              <div class="swiper-slide">Klass</div>
-              <div class="swiper-slide">Lärare</div>
-              <div class="swiper-slide">Sal</div>
-            </div>
-          </div>
-        </div>
-        <!-- Schedule list -->
-        <div class="field">
-          <select id="allSource"></select>
-        </div>
-      </div>
+    <div class="modalWrapper" id="picker" data-pick-for="">
+			<div class="modalContainer">
+				<!-- Modal -->
+				<div class="modal back">
+					<!-- Header -->
+					<header>
+						<h3>Välj schema</h3>
+					</header>
+					<!-- Contents -->
+					<div class="inner">
+						<!-- Type swiper -->
+		        <div class="field typeSwiper">
+		          <div class="swiper-container" id="scheduleType">
+		            <div class="swiper-wrapper">
+		              <div class="swiper-slide">Elev</div>
+		              <div class="swiper-slide">Klass</div>
+		              <div class="swiper-slide">Lärare</div>
+		              <div class="swiper-slide">Sal</div>
+		            </div>
+		          </div>
+
+							<!-- Back button -->
+							<div class="button disabled" id="backType">
+								<img src="resources/img/icons/back-dark.svg" alt="Back icon">
+							</div>
+
+							<!-- Forward button -->
+							<div class="button" id="forwardType">
+								<img src="resources/img/icons/forward-dark.svg" alt="Forward icon">
+							</div>
+		        </div>
+		        <!-- Schedule list -->
+		        <div class="field">
+		          <select id="allSource"></select>
+		        </div>
+					</div>
+	      </div>
+
+				<!-- Buttons -->
+				<div class="buttons">
+					<!-- Cancel setting -->
+					<div class="button warning" id="abortPick">
+						<img src="resources/img/icons/cancel-button.svg" alt="Cancel icon">
+					</div>
+					<!-- Save setting -->
+					<div class="button success disabled" id="savePick">
+						<img src="resources/img/icons/accept-button.svg" alt="Accept icon">
+					</div>
+				</div>
+			</div>
     </div>
 
 		<!-- CALENDAR EVENT DETAILS MODAL -->
 		<div class="modalWrapper" id="event">
-			<div class="modal">
-				<div class="details"></div>
-				<p class="close" id="closeEvent">Stäng</p>
+			<div class="modalContainer">
+				<div class="modal">
+					<div class="inner">
+						<div class="details"></div>
+						<p class="close" id="closeEvent">Stäng</p>
+					</div>
+				</div>
 			</div>
 		</div>
 

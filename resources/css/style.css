@@ -1456,6 +1456,66 @@
 
 	/* Overlaying modal styles */
 
+	.typeSwiper {
+		position:relative;
+
+		-webkit-user-select:none;
+		-moz-user-select:none;
+		-ms-user-select:none;
+		-o-user-select:none;
+	}
+
+	.typeSwiper .button {
+		width:50px;
+		height:50px;
+		position:absolute;
+		top:0;
+		cursor:pointer;
+		z-index:2;
+
+		display:-webkit-box;
+		display:-moz-box;
+		display:-ms-flexbox;
+		display:-webkit-flex;
+		display:flex;
+
+		-webkit-justify-content:center;
+		-moz-justify-content:center;
+		-ms-justify-content:center;
+		justify-content:center;
+
+		-webkit-align-items:center;
+		-moz-align-items:center;
+		-ms-align-items:center;
+		align-items:center;
+	}
+
+	.typeSwiper .button:not(.disabled):active {
+		background:#f9f9f9;
+	}
+
+	.typeSwiper .button.disabled {
+		cursor:default;
+		opacity:0.5;
+	}
+
+	.typeSwiper .button#backType {
+		left:0;
+		border-top-left-radius:5px;
+		border-bottom-left-radius:5px;
+	}
+
+	.typeSwiper .button#forwardType {
+		right:0;
+		border-top-right-radius:5px;
+		border-bottom-right-radius:5px;
+	}
+
+	.typeSwiper .button img {
+		width:14px;
+		float:left;
+	}
+
 	.modalWrapper {
 		width:100%;
 		height:100%;
@@ -1497,7 +1557,7 @@
 		opacity:1;
 	}
 
-	.modalWrapper.show .modal {
+	.modalWrapper.show .modalContainer .modal, .modalWrapper.show .modalContainer .buttons, .modalWrapper.show .modalContainer .buttons .button {
 		-webkit-transform:translate3d(0px,0px,0px);
 		-moz-transform:translate3d(0px,0px,0px);
 		-ms-transform:translate3d(0px,0px,0px);
@@ -1505,12 +1565,96 @@
 		transform:translate3d(0px,0px,0px);
 	}
 
-	.modalWrapper .modal {
+	.modalWrapper .modalContainer {
+		width:100%;
+		float:left;
+		position:relative;
+	}
+
+	.modalWrapper .modalContainer .buttons {
+		width:120px;
+		height:50px;
+		position:absolute;
+		bottom:-80px;
+		left:50%;
+		margin-left:-60px;
+		z-index:1;
+
+		display:-webkit-box;
+		display:-moz-box;
+		display:-ms-flexbox;
+		display:-webkit-flex;
+		display:flex;
+
+		-webkit-justify-content:space-between;
+		-moz-justify-content:space-between;
+		-ms-justify-content:space-between;
+		justify-content:space-between;
+
+		-webkit-transform:translate3d(0px,50px,0px);
+		-moz-transform:translate3d(0px,50px,0px);
+		-ms-transform:translate3d(0px,50px,0px);
+		-o-transform:translate3d(0px,50px,0px);
+		transform:translate3d(0px,50px,0px);
+
+		-webkit-transition:-webkit-transform 0.3s ease;
+		-moz-transition:-moz-transform 0.3s ease;
+		-ms-transition:-ms-transform 0.3s ease;
+		-o-transition:-o-transform 0.3s ease;
+		transition:transform 0.3s ease;
+	}
+
+	.modalWrapper .modalContainer .buttons .button {
+		width:50px;
+		height:50px;
+		float:left;
+		border-radius:25px;
+		cursor:pointer;
+		background:#fff;
+		box-shadow:0px 1px 4px rgba(0,0,0,0.1);
+
+		-webkit-transform:scale(0.5);
+		-moz-transform:scale(0.5);
+		-ms-transform:scale(0.5);
+		-o-transform:scale(0.5);
+		transform:scale(0.5);
+
+		-webkit-transition:-webkit-transform 0.3s ease;
+		-moz-transition:-moz-transform 0.3s ease;
+		-ms-transition:-ms-transform 0.3s ease;
+		-o-transition:-o-transform 0.3s ease;
+		transition:transform 0.3s ease;
+	}
+
+	.modalWrapper .modalContainer .buttons .button.disabled {
+		opacity:0.5;
+		cursor:default;
+	}
+
+	.modalWrapper .modalContainer .buttons .button:not(.disabled):active {
+		opacity:0.8;
+	}
+
+	.modalWrapper .modalContainer .buttons .button.warning {
+		background:#ef4646;
+	}
+
+	.modalWrapper .modalContainer .buttons .button.success {
+		background:#60be70;
+	}
+
+	.modalWrapper .modalContainer .buttons .button img {
+		width:50px;
+		height:50px;
+		float:left;
+	}
+
+	.modalWrapper .modalContainer .modal {
 		width:100%;
 		max-width:320px;
 		float:left;
     position:relative;
-		padding:15px 15px 0;
+		z-index:2;
 		border-radius:5px;
 		background:#fff;
 		box-shadow:0px 1px 4px rgba(0,0,0,0.1);
@@ -1528,11 +1672,29 @@
 		transition:transform 0.3s ease;
 	}
 
-  .modalWrapper .modal.back {
+  .modalWrapper .modalContainer .modal.back {
     background:#f1eff5;
   }
 
-	.modalWrapper .modal p.close {
+	.modalWrapper .modalContainer .modal header {
+		border-top-right-radius:5px;
+		border-top-left-radius:5px;
+		box-shadow:none;
+		background:#2a383c;
+	}
+
+	.modalWrapper .modalContainer .modal header h3 {
+		width:100%;
+		text-align:center;
+	}
+
+	.modalWrapper .modal .inner {
+		width:100%;
+		float:left;
+		padding:15px 15px 0;
+	}
+
+	.modalWrapper .modalContainer .modal p.close {
 		width:100%;
 		float:left;
 		text-align:center;
@@ -1548,12 +1710,12 @@
 		-o-user-select:none;
 	}
 
-	.modalWrapper .modal .details {
+	.modalWrapper .modalContainer .modal .details {
 		width:100%;
 		float:left;
 	}
 
-	.modalWrapper .modal .details h3 {
+	.modalWrapper .modalContainer .modal .details h3 {
 		line-height:22px;
 		word-break:break-all;
 
@@ -1562,24 +1724,24 @@
 		hyphens:auto;
 	}
 
-	.modalWrapper .modal .details .meta {
+	.modalWrapper .modalContainer .modal .details .meta {
 		width:100%;
 		float:left;
 		margin:5px 0 15px;
 	}
 
-	.modalWrapper .modal .details .meta p.small {
+	.modalWrapper .modalContainer .modal .details .meta p.small {
 		color:#899baa;
 		line-height:13px;
 		position:relative;
 		padding:0 0 0 16px;
 	}
 
-	.modalWrapper .modal .details .meta p.small.time {
+	.modalWrapper .modalContainer .modal .details .meta p.small.time {
 		margin:0 0 0 10px;
 	}
 
-	.modalWrapper .modal .details .meta p.small:before {
+	.modalWrapper .modalContainer .modal .details .meta p.small:before {
 		content:'';
 		width:12px;
 		height:12px;
@@ -1588,12 +1750,12 @@
 		left:0;
 	}
 
-	.modalWrapper .modal .details .meta p.small.date:before {
+	.modalWrapper .modalContainer .modal .details .meta p.small.date:before {
 		background:url(../img/icons/calendar.svg) no-repeat center center;
 		background-size:12px 12px;
 	}
 
-	.modalWrapper .modal .details .meta p.small.time:before {
+	.modalWrapper .modalContainer .modal .details .meta p.small.time:before {
 		background:url(../img/icons/time.svg) no-repeat center center;
 		background-size:12px 12px;
 	}

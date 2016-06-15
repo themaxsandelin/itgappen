@@ -36,6 +36,7 @@
 		onSlideChangeStart: weekChange
 	});
 
+	// Handles the weekSwiper's week change
 	function weekChange(swiper) {
 		if (switchingSchedule) return;
 

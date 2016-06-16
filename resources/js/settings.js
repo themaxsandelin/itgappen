@@ -240,8 +240,7 @@
 			settings.other.id = tempSchedule.id;
 			settings.other.name = tempSchedule.name;
 		}
-
-		saveSettings();
+		updateSettingsValues();
 		hideModal('#picker');
 	}
 

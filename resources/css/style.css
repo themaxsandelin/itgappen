@@ -1569,6 +1569,17 @@
 		width:100%;
 		float:left;
 		position:relative;
+
+		display:-webkit-box;
+		display:-moz-box;
+		display:-ms-flexbox;
+		display:-webkit-flex;
+		display:flex;
+
+		-webkit-justify-content:center;
+		-moz-justify-content:center;
+		-ms-justify-content:center;
+		justify-content:center;
 	}
 
 	.modalWrapper .modalContainer .buttons {
@@ -1681,6 +1692,8 @@
 		border-top-left-radius:5px;
 		box-shadow:none;
 		background:#2a383c;
+		height:56px;
+		padding:0;
 	}
 
 	.modalWrapper .modalContainer .modal header h3 {

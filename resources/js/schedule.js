@@ -63,6 +63,15 @@
 		else otherDay = swiper.activeIndex;
 
 		if (s === i) document.querySelector('body').setAttribute('data-selected-day', swiper.activeIndex);
+
+		var days = document.querySelector('ul.days').querySelectorAll('li');
+		days.forEach(function(item, i) {
+			if (i !== swiper.activeIndex) {
+				item.style.opacity = 0.5;
+			} else {
+				item.style.opacity = 1.0;
+			}
+		});
 	}
 
 	// Set transition on the day bar when the swiper changes it's transition
@@ -75,18 +84,42 @@
 		bar.style.msTransition = '-ms-transform '+t+'s ease';
 		bar.style.oTransition = '-o-transform '+t+'s ease';
 		bar.style.transition = 'transform '+t+'s ease';
+
+		var days = document.querySelector('ul.days').querySelectorAll('li');
+		days.forEach(function(item) {
+			item.style.webkitTransition =
+			item.style.mozTransition =
+			item.style.msTransition =
+			item.style.oTransition =
+			item.style.transition = 'opacity '+t+'s ease';
+		});
 	}
 
 	// Move the day bar when the active swiper moves the slides
 	function sliderMove(swiper, progress) {
 		var bar = document.querySelector('ul.days span');
-		var m = 100 * (4 * swiper.progress);
+		var m = 100 * (4 * progress);
 
 		bar.style.webkitTransform =
 		bar.style.mozTransform =
 		bar.style.msTransform =
 		bar.style.oTransform =
 		bar.style.transform = 'translate3d('+m+'%,0px,0px)';
+
+		var prog = Math.floor(progress / 0.25);
+		if (prog >= 0 && prog < 4) {
+			var days = document.querySelector('ul.days').querySelectorAll('li');
+			var fr = days[prog];
+			var to = days[prog+1];
+
+			if (progress <= 1) {
+				var raise = 0.5 + (progress - (0.25 * prog)) * 2;
+				var lower = 1 - (progress - (0.25 * prog)) * 2;
+
+				fr.style.opacity = lower;
+				to.style.opacity = raise;
+			}
+		}
 	}
 
 	// Handle the click even of a day tab
@@ -137,6 +170,26 @@
 		bar.style.msTransform =
 		bar.style.oTransform =
 		bar.style.transform = 'translate3d('+m+'%,0px,0px)';
+
+		var days = document.querySelector('ul.days').querySelectorAll('li');
+		days.forEach(function(item, i) {
+			if (i !== swiper.activeIndex) {
+				item.style.opacity = 0.5;
+			} else {
+				item.style.opacity = 1.0;
+			}
+		});
+
+		var days = document.querySelector('ul.days').querySelectorAll('li');
+		days.forEach(function(item) {
+			item.style.webkitTransition =
+			item.style.mozTransition =
+			item.style.msTransition =
+			item.style.oTransition =
+			item.style.transition = 'opacity '+t+'s ease';
+		});
+
+
 
 		weekSwiper.slideTo((week - 1), 300);
 

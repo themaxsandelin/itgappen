@@ -463,7 +463,7 @@
 	}
 
 	@media only screen and (min-width:1025px) {
-		header .titles h3 {
+		body[data-double-schedule="true"] header .titles h3 {
 			-webkit-transition:-webkit-transform 0.3s ease, background 0.15s ease;
 			-moz-transition:-moz-transform 0.3s ease, background 0.15s ease;
 			-ms-transition:-ms-transform 0.3s ease, background 0.15s ease;
@@ -471,13 +471,13 @@
 			transition:transform 0.3s ease, background 0.15s ease;
 		}
 
-		header .titles h3:hover {
+		body[data-double-schedule="true"] header .titles h3:hover {
 			background:rgba(255,255,255,0.1);
 		}
 	}
 
 	@media only screen and (max-width:1024px) {
-		header .titles h3 {
+		body[data-double-schedule="true"] header .titles h3 {
 			-webkit-transition:-webkit-transform 0.3s ease, background 0.05s ease;
 			-moz-transition:-moz-transform 0.3s ease, background 0.05s ease;
 			-ms-transition:-ms-transform 0.3s ease, background 0.05s ease;
@@ -485,7 +485,7 @@
 			transition:transform 0.3s ease, background 0.05s ease;
 		}
 
-		header .titles h3:active {
+		body[data-double-schedule="true"] header .titles h3:active {
 			background:rgba(255,255,255,0.1);
 		}
 	}
@@ -1015,6 +1015,30 @@
 
 	body[data-render="ios"] #settings {
 		padding:76px 0 0 0;
+	}
+
+	#otherField {
+		position:relative;
+
+		-webkit-transition:opacity 0.2s ease;
+		-moz-transition:opacity 0.2s ease;
+		-ms-transition:opacity 0.2s ease;
+		-o-transition:opacity 0.2s ease;
+		transition:opacity 0.2s ease;
+	}
+
+	body[data-double-schedule="false"] #otherField {
+		opacity:0.5;
+	}
+
+	body[data-double-schedule="false"] #otherField:before {
+		content:'';
+		width:100%;
+		height:100%;
+		position:absolute;
+		top:0;
+		left:0;
+		z-index:2;
 	}
 
 	#settings header {

@@ -13,29 +13,23 @@
 		<link rel="stylesheet" type="text/css" href="resources/css/swiper.css">
     <link rel="stylesheet" type="text/css" href="resources/css/style.css">
 	</head>
-	<body ontouchstart="" data-render="ios" data-active-page="schedule" data-active-schedule="main" data-selected-day="" data-display-weeks="false">
+	<body ontouchstart="" data-render="" data-active-page="schedule" data-active-schedule="main" data-selected-day="" data-display-weeks="false" data-double-schedule="false">
 
 		<!-- Fixed drawer -->
     <nav>
-			<!-- Drawer header -->
       <header>
-				<!-- Back button -->
         <div class="button" id="closeMenu">
           <img src="resources/img/icons/back.svg" alt="left arrow icon">
         </div>
 
-				<!-- Settingsbutton -->
         <div class="button right" id="gotoSettings">
           <img src="resources/img/icons/settings.svg" alt="settings icon">
         </div>
 
-				<!-- Title -->
         <h3>Huvudmenyn</h3>
       </header>
-			<!-- Scrollable content -->
-			<div class="content">
 
-				<!-- Main menu -->
+			<div class="content">
 				<ul class="drawerMenu">
 					<li class="selected" data-page="schedule">Schema</li>
 					<li data-page="calendar">Kalender</li>
@@ -44,14 +38,6 @@
 				</ul>
 				<div class="splitter"></div>
 
-				<!-- Info menu -->
-				<ul class="drawerMenu">
-					<li data-page="union">Elevkåren</li>
-					<li data-page="feedback">Skicka feedback</li>
-				</ul>
-				<div class="splitter"></div>
-
-				<!-- Footer -->
 				<footer>
 					<p>Kontakt: <a href="mailto:support@itgappen.se">support@itgappen.se</a></p>
 					<p><span>ITG Appen</span> version <span>5.0</span></p>
@@ -66,7 +52,6 @@
     <div id="coreOverlay"></div>
 
     <header class="main">
-      <!-- Mobile menu button -->
       <div class="button" id="menuButton">
         <div class="menuButton">
           <div class="str top"></div>
@@ -75,19 +60,16 @@
         </div>
       </div>
 
-			<!-- Schedule titles -->
 			<div class="titles">
       	<h3 id="mainTitle"></h3>
-				<h3 class="pull" id="otherTitle"></h3>
+				<h3 id="otherTitle"></h3>
 			</div>
 
-			<!-- Other titles -->
 			<h3 id="defaultTitle"></h3>
 
 			<div class="right">
-				<!-- Week chooser -->
 				<div class="button" id="weekNumber"></div>
-				<!-- Update buttons -->
+
 				<div class="button" id="update">
 					<img src="resources/img/icons/update.svg" alt="Update icon">
 				</div>
@@ -104,71 +86,50 @@
 			<li data-day="4">Fre</li>
 		</ul>
 
+		<!-- Weeks overlaying bar -->
 		<div class="weeks">
-			<!-- Previous week button -->
 			<div class="button" id="previousWeek">
 				<img src="resources/img/icons/back-dark.svg" alt="Change week icon">
 			</div>
 
-			<!-- Week slider -->
 			<div class="swiper-container" id="weeks">
 				<div class="swiper-wrapper"></div>
 			</div>
 
-			<!-- Next week button -->
 			<div class="button" id="nextWeek">
 				<img src="resources/img/icons/forward-dark.svg" alt="Change week icon">
 			</div>
 		</div>
 
-		<!-- MAIN PAGES -->
-
-			<!-- Schedule page -->
-			<section id="schedule" class="display">
-				<div class="schedules">
-
-					<!-- Main schedule -->
-					<div class="schedule main">
-						<div class="swiper-container" id="main">
-							<div class="swiper-wrapper"></div>
-						</div>
+		<!-- Schedule page -->
+		<section id="schedule" class="display">
+			<div class="schedules">
+				<div class="schedule main">
+					<div class="swiper-container" id="main">
+						<div class="swiper-wrapper"></div>
 					</div>
-
-					<!-- Other schedule -->
-					<div class="schedule other">
-						<div class="swiper-container" id="other">
-							<div class="swiper-wrapper"></div>
-						</div>
-					</div>
-
 				</div>
-			</section>
 
-			<!-- Calendar page -->
-			<section id="calendar">
-				<ul class="events" id="calendarEvents"></ul>
-			</section>
+				<div class="schedule other">
+					<div class="swiper-container" id="other">
+						<div class="swiper-wrapper"></div>
+					</div>
+				</div>
+			</div>
+		</section>
 
-			<!-- Cafe page -->
-			<section id="food"></section>
+		<!-- Calendar page -->
+		<section id="calendar">
+			<ul class="events" id="calendarEvents"></ul>
+		</section>
 
-			<!-- Transit page -->
-			<section id="transit"></section>
+		<!-- Cafe page -->
+		<section id="food"></section>
 
-		<!-- // MAIN PAGES -->
+		<!-- Transit page -->
+		<section id="transit"></section>
 
-		<!-- APP PAGES -->
-
-			<!-- Union page -->
-			<section id="union"></section>
-
-			<!-- Feedback page -->
-			<section id="feedback"></section>
-
-		<!-- // APP PAGES -->
-
-
-		<!-- SETTINGS PAGE -->
+		<!-- Settings page -->
 		<div id="settings">
 			<header>
 				<div class="button" id="closeSettings">
@@ -178,7 +139,6 @@
 			</header>
 			<div class="content">
 
-				<!-- Double schedule field -->
 				<div class="field toggleDoubleSchedule">
 					<div class="box">
 						<h5>Dubbla scheman</h5>
@@ -191,40 +151,34 @@
 
 				<hr>
 
-				<!-- Main schedule field -->
 				<label>Mitt schema</label>
 				<div class="field">
-					<!-- Name -->
 					<div class="box btn">
 						<input type="text" id="mainInput" placeholder="Välj ett namn för ditt schema.." value="">
 						<div class="button clear" id="clearMain"></div>
 					</div>
-					<!-- Source -->
+
 					<div class="box" id="mainSource">
 						<h5 id="mainSourceName">Ändra schema</h5>
 						<div class="button tab"></div>
 					</div>
 				</div>
 
-				<!-- Other schedule field -->
 				<label>Annat schema</label>
-				<div class="field">
-					<!-- Name -->
+				<div class="field" id="otherField">
 					<div class="box btn">
 						<input type="text" id="otherInput" placeholder="Välj ett namn för ditt andra schema.." value="">
 						<div class="button clear" id="clearOther"></div>
 					</div>
-					<!-- Source -->
+
 					<div class="box" id="otherSource">
 						<h5 id="otherSourceName">Ändra schema</h5>
 						<div class="button tab"></div>
 					</div>
 				</div>
 
-				<!-- Calendar field -->
 				<label>Kalender</label>
 				<div class="field">
-					<!-- Calendar source -->
 					<select id="calendarSource">
 						<option value="0">Välj klass..</option>
 					</select>
@@ -236,22 +190,18 @@
 					<button class="warning mrg" id="reset">Återställ</button>
 					<button class="primary" id="export">Exportera</button>
 				</div>
-
 			</div>
 		</div>
 
-    <!-- SCHEDULE PICKER MODAL -->
+    <!-- Schedule picker modal -->
     <div class="modalWrapper" id="picker" data-pick-for="">
 			<div class="modalContainer">
-				<!-- Modal -->
 				<div class="modal back">
-					<!-- Header -->
 					<header>
 						<h3>Välj schema</h3>
 					</header>
-					<!-- Contents -->
+
 					<div class="inner">
-						<!-- Type swiper -->
 		        <div class="field typeSwiper">
 		          <div class="swiper-container" id="scheduleType">
 		            <div class="swiper-wrapper">
@@ -262,30 +212,26 @@
 		            </div>
 		          </div>
 
-							<!-- Back button -->
 							<div class="button disabled" id="backType">
 								<img src="resources/img/icons/back-dark.svg" alt="Back icon">
 							</div>
 
-							<!-- Forward button -->
 							<div class="button" id="forwardType">
 								<img src="resources/img/icons/forward-dark.svg" alt="Forward icon">
 							</div>
 		        </div>
-		        <!-- Schedule list -->
+
 		        <div class="field">
 		          <select id="allSource"></select>
 		        </div>
 					</div>
 	      </div>
 
-				<!-- Buttons -->
 				<div class="buttons">
-					<!-- Cancel setting -->
 					<div class="button warning" id="abortPick">
 						<img src="resources/img/icons/cancel-button.svg" alt="Cancel icon">
 					</div>
-					<!-- Save setting -->
+
 					<div class="button success disabled" id="savePick">
 						<img src="resources/img/icons/accept-button.svg" alt="Accept icon">
 					</div>
@@ -293,7 +239,7 @@
 			</div>
     </div>
 
-		<!-- CALENDAR EVENT DETAILS MODAL -->
+		<!-- Calendar event modal -->
 		<div class="modalWrapper" id="event">
 			<div class="modalContainer">
 				<div class="modal">
@@ -311,11 +257,10 @@
 		<script src="resources/js/libs/swiper.js"></script>
 		<script src="resources/js/libs/fastclick.js"></script>
 
-
     <script src="resources/js/settings.js"></script>
 		<script src="resources/js/navigation.js"></script>
 		<script src="resources/js/schedule.js"></script>
 		<script src="resources/js/calendar.js"></script>
-
+		<script src="resources/js/transit.js"></script>
 	</body>
 </html>

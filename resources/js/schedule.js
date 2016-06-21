@@ -15,6 +15,7 @@
 	var otherWeek = week;
 
 	var switchingSchedule = false;
+	var builtOtherSchedule = false;
 
 	// Main schedule slider
 	var mainSwiper = new Swiper('.swiper-container#main', {
@@ -49,6 +50,7 @@
 		if (a === 'main') mainWeek = w;
 		else otherWeek = w;
 
+		pushWeekNumber();
 		pushScheduleImages(s, scheduleUrlFactory(i, w), d);
 	}
 
@@ -218,17 +220,14 @@
 		weekSwiper.slideTo(i, 300);
 	}
 
-	pushScheduleImages(mainSwiper, scheduleUrlFactory(settings.main.id, mainWeek), mainDay);
-	pushScheduleImages(otherSwiper, scheduleUrlFactory(settings.other.id, otherWeek), otherDay);
 
-	pushWeekNumber();
-	populateWeekSlider();
+	// Event listeners
 
 	document.querySelector('body').setAttribute('data-selected-day', mainDay);
 
 	// Click on the main title
 	document.querySelector('.titles').addEventListener('click', function() {
-		if (currentPage === 'schedule') {
+		if (currentPage === 'schedule' && settings.double) {
 			// You are on the schedule page, switch between schedules
 			switchSchedules();
 		}
@@ -253,3 +252,21 @@
 	document.getElementById('previousWeek').addEventListener('click', function() {
 		weekSwiper.slidePrev();
 	});
+
+
+	// Init events
+
+	// Build the main schedule
+	pushScheduleImages(mainSwiper, scheduleUrlFactory(settings.main.id, mainWeek), mainDay);
+
+	// If the double schedule is turned on, build the other schedule
+	if (settings.double) {
+		builtOtherSchedule = true;
+		pushScheduleImages(otherSwiper, scheduleUrlFactory(settings.other.id, otherWeek), otherDay);
+	}
+
+	// Push out the current week number
+	pushWeekNumber();
+
+	// Setup the week slider
+	populateWeekSlider();

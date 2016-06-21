@@ -38,8 +38,6 @@
 		if (!stored.main.name) stored.main.name = '2C Joel Eriksson';
 		if (!stored.other.name) stored.other.name = 'Johan Kivi';
 
-		console.log(stored);
-
     return stored;
   }
 
@@ -83,8 +81,60 @@
     var sw = document.getElementById('doubleSchedule');
     sw.classList.toggle('on');
     settings.double = !settings.double;
+
+		if (settings.double) {
+			enableDoubleSchedule();
+		} else {
+			disableDoubleSchedule();
+		}
     saveSettings();
   }
+
+	function enableDoubleSchedule() {
+		document.querySelector('body').setAttribute('data-double-schedule', 'true');
+
+		document.getElementById('otherInput').value = settings.other.title;
+		document.getElementById('otherSourceName').innerHTML = settings.other.name;
+	}
+
+	function disableDoubleSchedule() {
+		document.querySelector('body').setAttribute('data-double-schedule', 'false');
+
+		document.getElementById('otherInput').value = ' ';
+		document.getElementById('otherSourceName').innerHTML = '';
+
+		if (document.querySelector('body').getAttribute('data-active-schedule') === 'other') {
+			switchingSchedule = true;
+			document.querySelector('body').setAttribute('data-active-schedule', 'main');
+			document.querySelector('body').setAttribute('data-selected-day', mainDay);
+
+			var swiper = mainSwiper;
+			var week = mainWeek;
+			var t = swiper.params.speed / 1000;
+			var m = 100 * (4 * swiper.progress);
+			var bar = document.querySelector('ul.days span');
+
+			bar.style.webkitTransition = '-webkit-transform '+t+'s ease';
+			bar.style.mozTransition = '-moz-transform '+t+'s ease';
+			bar.style.msTransition = '-ms-transform '+t+'s ease';
+			bar.style.oTransition = '-o-transform '+t+'s ease';
+			bar.style.transition = 'transform '+t+'s ease';
+
+			bar.style.webkitTransform =
+			bar.style.mozTransform =
+			bar.style.msTransform =
+			bar.style.oTransform =
+			bar.style.transform = 'translate3d('+m+'%,0px,0px)';
+
+			weekSwiper.slideTo((week - 1), 300);
+
+			pushWeekNumber();
+
+			setTimeout(function() {
+				switchingSchedule = false;
+			}, 300);
+		}
+	}
 
   // Change event of the calendar source, update the settings object and save the settings.
   function calendarChanged(e) {
@@ -140,18 +190,24 @@
 
   function updateSettingsValues() {
     // Setup double schedules
-    if (settings.double) document.getElementById('doubleSchedule').classList.add('on');
+    if (settings.double) {
+			document.querySelector('body').setAttribute('data-double-schedule', 'true');
+			document.getElementById('doubleSchedule').classList.add('on');
+
+			// Setup other schedule values
+	    if (settings.other) {
+	      if (settings.other.title) setupTitles('other', settings.other.title);
+				if (settings.other.name) document.getElementById('otherSourceName').innerHTML = settings.other.name;
+	    }
+		} else {
+			document.getElementById('otherInput').value = ' ';
+			document.getElementById('otherSourceName').innerHTML = '';
+		}
 
     // Setup main schedule values
     if (settings.main) {
       if (settings.main.title) setupTitles('main', settings.main.title);
 			if (settings.main.name) document.getElementById('mainSourceName').innerHTML = settings.main.name;
-    }
-
-    // Setup other schedule values
-    if (settings.other) {
-      if (settings.other.title) setupTitles('other', settings.other.title);
-			if (settings.other.name) document.getElementById('otherSourceName').innerHTML = settings.other.name;
     }
 
     // Setup calendar value

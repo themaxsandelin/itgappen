@@ -32,8 +32,8 @@
 	function pushCalendarEvents(list) {
 		events = [];
 		for (var i in list) {
-			var item = list[i],
-					eventList = document.getElementById('calendarEvents');
+			var item = list[i];
+			var eventList = document.getElementById('calendarEvents');
 
 			// Set start and end moment objects.
 			item.start = (item.start.date) ? (moment(item.start.date)):(moment(item.start.dateTime));
@@ -42,9 +42,9 @@
 			item.duration = setDurationLabel(item.start, item.end);
 
 			// Create HTML element and append data
-			var element = document.createElement('li'),
-					date = document.createElement('div'),
-					description = document.createElement('div');
+			var element = document.createElement('li');
+			var date = document.createElement('div');
+			var description = document.createElement('div');
 
 			// Setup the date element
 			date.classList.add('date');

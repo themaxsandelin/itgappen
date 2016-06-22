@@ -64,7 +64,10 @@
 
 		if (s === i) document.querySelector('body').setAttribute('data-selected-day', swiper.activeIndex);
 
-		var days = document.querySelector('ul.days').querySelectorAll('li');
+		var arr = document.querySelector('ul.days').querySelectorAll('li');
+		var days = [];
+		for(var i = arr.length; i--; days.unshift(arr[i]));
+
 		days.forEach(function(item, i) {
 			if (i !== swiper.activeIndex) {
 				item.style.opacity = 0.5;
@@ -85,7 +88,10 @@
 		bar.style.oTransition = '-o-transform '+t+'s ease';
 		bar.style.transition = 'transform '+t+'s ease';
 
-		var days = document.querySelector('ul.days').querySelectorAll('li');
+		var arr = document.querySelector('ul.days').querySelectorAll('li');
+		var days = [];
+		for(var i = arr.length; i--; days.unshift(arr[i]));
+
 		days.forEach(function(item) {
 			item.style.webkitTransition =
 			item.style.mozTransition =

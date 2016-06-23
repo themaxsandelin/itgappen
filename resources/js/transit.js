@@ -4,9 +4,9 @@
 		slidesPerView: 2.2,
 		centeredSlides: true,
 
-		onProgress: stopProgress,
-		onSetTransition: stopTransition,
-		onSlideChangeStart: stopChange
+		onSlideChangeStart: swiperChange,
+		onProgress: swiperProgress,
+		onSetTransition: swiperTransition
 	});
 
 	var transitSwiper = new Swiper('#transitSwiper', {
@@ -17,7 +17,18 @@
 	stopSwiper.params.control = transitSwiper;
   transitSwiper.params.control = stopSwiper;
 
-	function stopProgress(swiper) {
+
+
+	function swiperChange(swiper) {
+		var slides = swiper.slides.length;
+
+		for (var s = 0; s < slides; s++) {
+			var slide = swiper.slides[s];
+			slide.style.opacity = (s === swiper.activeIndex) ? '1':'0.5';
+		}
+	}
+
+	function swiperProgress(swiper) {
 		var spaces = swiper.slides.length - 1;
 		var breakpoint = 1 / spaces;
 		var index = Math.floor(swiper.progress / breakpoint);
@@ -26,59 +37,26 @@
 			var progress = (swiper.progress * spaces) - index;
 
 			var fr = swiper.slides[index];
-			var frScale = 1.2 - (0.2 * progress);
-			var frOpac = 1 - (0.5 * progress);
+			fr.style.opacity = 1 - (0.5 * progress);
 
 			var to = swiper.slides[index+1];
-			var toScale = 1.0 + (0.2 * progress);
-			var toOpac = 0.5 + (0.5 * progress);
-
-			setSlideStyles(fr, frScale, frOpac);
-			setSlideStyles(to, toScale, toOpac);
+			to.style.opacity = 0.5 + (0.5 * progress);
 		}
 	}
 
-	function stopTransition(swiper, transition) {
+	function swiperTransition(swiper, transition) {
 		var t = transition / 1000;
-
-		var arr = document.getElementById('stops').querySelectorAll('.swiper-wrapper .swiper-slide');
+		var arr = swiper.slides;
 		var slides = [];
 		for(var i = arr.length; i--; slides.unshift(arr[i]));
 
 		slides.forEach(function(slide) {
-			slide.style.webkitTransition = '-webkit-transform '+t+'s ease, opacity '+t+'s ease';
-			slide.style.mozTransition = '-moz-transform '+t+'s ease, opacity '+t+'s ease';
-			slide.style.msTransition = '-ms-transform '+t+'s ease, opacity '+t+'s ease';
-			slide.style.oTransition = '-o-transform '+t+'s ease, opacity '+t+'s ease';
-			slide.style.transition = 'transform '+t+'s ease, opacity '+t+'s ease';
+			slide.style.webkitTransition =
+			slide.style.mozTransition =
+			slide.style.msTransition =
+			slide.style.oTransition =
+			slide.style.transition = 'opacity '+t+'s ease';
 		});
-	}
-
-	function stopChange(swiper) {
-		var stop = swiper.slides.length;
-
-		for (var s = 0; s < stop; s++) {
-			var slide = swiper.slides[s];
-			var scale;
-			var opac;
-			if (s !== swiper.activeIndex) {
-				scale = '1.0';
-				opac = '0.5';
-			} else {
-				scale = '1.2';
-				opac = '1';
-			}
-			setSlideStyles(slide, scale, opac);
-		}
-	}
-
-	function setSlideStyles(slide, scale, opac) {
-		slide.style.webkitTransform =
-		slide.style.mozTransform =
-		slide.style.msTransform =
-		slide.style.oTransform =
-		slide.style.transform = 'scale('+scale+')';
-		slide.style.opacity = opac;
 	}
 
 	// Will load the transit information from the public API
@@ -86,6 +64,7 @@
 	function loadTransits(callback) {
 		var req = new XMLHttpRequest();
 		req.open('GET', 'http://139.59.171.126:1337/api/v2/transit', true);
+		// req.open('GET', 'http://127.0.0.1:1337/api/v2/transit', true);
 		req.send();
 		req.onreadystatechange = function() {
 			if (req.readyState === 4 && req.status === 200) callback(JSON.parse(req.responseText));
@@ -142,7 +121,7 @@
 		var stops = stops.sort(orderStops);
 
 		stops.forEach(function(item) {
-			stopSwiper.appendSlide('<div class="swiper-slide">'+item.stop+'</div>');
+			stopSwiper.appendSlide('<div class="swiper-slide"><h5>'+item.stop+'</h5></div>');
 
 			var slide =
 				'<div class="swiper-slide transitStop" data-transit-stop="'+item.stop+'">'+

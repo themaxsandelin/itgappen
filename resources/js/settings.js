@@ -61,6 +61,7 @@
 	function getSchedules(callback) {
 		var req = new XMLHttpRequest();
 		req.open('GET', 'http://139.59.171.126:1337/api/v2/schedules', true);
+		// req.open('GET', 'http://127.0.0.1:1337/api/v2/schedules', true);
 		req.send();
 		req.onreadystatechange = function() {
 			if (req.readyState == 4 && req.status == 200) callback(JSON.parse(req.responseText));

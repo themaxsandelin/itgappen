@@ -1,21 +1,15 @@
 
-	var cal = '3936333335373833343930',
-			url = calendarUrlFactory(cal);
-			events = [];
-
-	// Get all calendar events and then push the data ti the calendar page
-	getCalendarEvents(calendarUrlFactory(cal), function(res) {
-		pushCalendarEvents(JSON.parse(res).items);
-	});
+	var events = [];
 
 	// Factory function to generate the Google Calendar API url based on the calendar_id and some parameters
 	function calendarUrlFactory(id) {
-		var pre = 'itggot.se_',
-				post = '@resource.calendar.google.com/events/',
-				key = 'AIzaSyBMBbVIAhAfKBn5K8XSU9W-YGyxAJ_YsUQ',
-				date = moment().toISOString();
-		// return 'https://www.googleapis.com/calendar/v3/calendars/'+pre+id+post+'?key='+key+'&maxResults=2500&timeMin='+date+'&singleEvents=True&orderBy=startTime';
-		return 'https://www.googleapis.com/calendar/v3/calendars/'+pre+id+post+'?key='+key+'&maxResults=2500&singleEvents=True&orderBy=startTime';
+		var pre = 'itggot.se_';
+		var post = '@resource.calendar.google.com/events/';
+		var key = 'AIzaSyBMBbVIAhAfKBn5K8XSU9W-YGyxAJ_YsUQ';
+		var date = moment().toISOString();
+
+		return 'https://www.googleapis.com/calendar/v3/calendars/'+pre+id+post+'?key='+key+'&maxResults=2500&timeMin='+date+'&singleEvents=True&orderBy=startTime';
+		// return 'https://www.googleapis.com/calendar/v3/calendars/'+pre+id+post+'?key='+key+'&maxResults=2500&singleEvents=True&orderBy=startTime';
 	}
 
 	// An basic GET XMLHttpRequest to get the calendar events and then respond by running the callback function
@@ -30,39 +24,53 @@
 
 	// Takes in a calendar event list and pushes it to the calendar page
 	function pushCalendarEvents(list) {
+		var eventList = document.getElementById('calendarEvents');
 		events = [];
-		for (var i in list) {
-			var item = list[i];
-			var eventList = document.getElementById('calendarEvents');
 
-			// Set start and end moment objects.
-			item.start = (item.start.date) ? (moment(item.start.date)):(moment(item.start.dateTime));
-			item.end = (item.end.date) ? (moment(item.end.date)):(moment(item.end.dateTime));
+		eventList.classList.remove('empty');
+		if (list.length) {
+			for (var i in list) {
+				var item = list[i];
 
-			item.duration = setDurationLabel(item.start, item.end);
+				// Set start and end moment objects.
+				item.start = (item.start.date) ? (moment(item.start.date)):(moment(item.start.dateTime));
+				item.end = (item.end.date) ? (moment(item.end.date)):(moment(item.end.dateTime));
 
-			// Create HTML element and append data
+				item.duration = setDurationLabel(item.start, item.end);
+
+				// Create HTML element and append data
+				var element = document.createElement('li');
+				var date = document.createElement('div');
+				var description = document.createElement('div');
+
+				// Setup the date element
+				date.classList.add('date');
+				date.innerHTML = '<h3>'+item.start.format('D')+'</h3>';
+				date.innerHTML += '<p class="small">'+item.start.locale("sv").format('MMM')+'</p>';
+
+				// Setup the description element
+				description.classList.add('description');
+				description.innerHTML += '<h5>'+item.summary+'</h5>';
+				description.innerHTML += '<p class="small">'+item.duration+'</p>';
+
+				element.appendChild(date);
+				element.appendChild(description);
+				element.setAttribute('data-event-index', i);
+
+				events.push(item);
+				element.addEventListener('click', eventItemClick.bind(element));
+
+				eventList.appendChild(element);
+			}
+		} else {
 			var element = document.createElement('li');
-			var date = document.createElement('div');
-			var description = document.createElement('div');
+			var message = document.createElement('h6');
+			message.classList.add('message');
+			eventList.classList.add('empty');
 
-			// Setup the date element
-			date.classList.add('date');
-			date.innerHTML = '<h3>'+item.start.format('D')+'</h3>';
-			date.innerHTML += '<p class="small">'+item.start.locale("sv").format('MMM')+'</p>';
+			message.innerHTML = 'Kunde inte hitta några kalender event.';
 
-			// Setup the description element
-			description.classList.add('description');
-			description.innerHTML += '<h5>'+item.summary+'</h5>';
-			description.innerHTML += '<p class="small">'+item.duration+'</p>';
-
-			element.appendChild(date);
-			element.appendChild(description);
-			element.setAttribute('data-event-index', i);
-
-			events.push(item);
-			element.addEventListener('click', eventItemClick.bind(element));
-
+			element.appendChild(message);
 			eventList.appendChild(element);
 		}
 	}
@@ -107,6 +115,7 @@
 		showModal('#event');
 	}
 
+	// Appends the event details to the event modal
 	function pushEventDetails(event) {
 		var container = document.querySelector('#event .modal .details');
 		container.innerHTML = '';
@@ -126,9 +135,6 @@
 		var appendTime = false;
 		time.classList.add('small');
 		time.classList.add('time');
-
-		// Check if the event start and end are on different dates, if they are then only show the date differences
-		// If they are on the same day, show the date and if the time is set to something different than 00:00 then show the time as well.
 
 		var start = event.start,
 				end = event.end;
@@ -168,13 +174,7 @@
 		container.appendChild(meta);
 	}
 
-
-	// Event modal scripts
-
-	document.getElementById('closeEvent').addEventListener('click', function() {
-    hideModal('#event');
-  });
-
+	// Global function for showing an overlaying modal
 	function showModal(sel) {
 		var modal = document.querySelector(sel);
     var overlay = document.querySelector('#coreOverlay');
@@ -187,6 +187,7 @@
 		}, 20);
 	}
 
+	// Global function for hiding an overlaying modal
 	function hideModal(sel) {
 		var modal = document.querySelector(sel);
     var overlay = document.querySelector('#coreOverlay');
@@ -199,5 +200,15 @@
 		}, 320);
 	}
 
+	// Click on "Stäng" to hide the event modal
+	document.getElementById('closeEvent').addEventListener('click', function() {
+    hideModal('#event');
+  });
 
-
+	// Get all calendar events and then push the data to the calendar page
+	// if there is a settings chosen for the calendar
+	if (settings.calendar) {
+		getCalendarEvents(calendarUrlFactory(settings.calendar.id), function(res) {
+			pushCalendarEvents(JSON.parse(res).items);
+		});
+	}

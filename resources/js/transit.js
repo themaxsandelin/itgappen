@@ -1,5 +1,5 @@
 
-	// Setup the stop swiper bar
+	// Swiper for the stop(s) bar
 	var stopSwiper = new Swiper('#stops', {
 		slidesPerView: 2.2,
 		centeredSlides: true,
@@ -9,16 +9,17 @@
 		onSetTransition: swiperTransition
 	});
 
+	// Swiper for the transit list(s)
 	var transitSwiper = new Swiper('#transitSwiper', {
 		observer: true,
 		observeParents: true
 	});
 
+	// Tie together the controls of the swipers to control eachother upon progress change
 	stopSwiper.params.control = transitSwiper;
   transitSwiper.params.control = stopSwiper;
 
-
-
+	// Controls the index change of a slider
 	function swiperChange(swiper) {
 		var slides = swiper.slides.length;
 
@@ -28,6 +29,7 @@
 		}
 	}
 
+	// Controllers the progress change of a slider
 	function swiperProgress(swiper) {
 		var spaces = swiper.slides.length - 1;
 		var breakpoint = 1 / spaces;
@@ -44,6 +46,7 @@
 		}
 	}
 
+	// Controlls the transition change of a slider
 	function swiperTransition(swiper, transition) {
 		var t = transition / 1000;
 		var arr = swiper.slides;
@@ -71,6 +74,7 @@
 		}
 	}
 
+	// Orders the stops received from the API based on a specific order
 	function orderStops(a, b) {
 		var order = ['Chalmers', 'Kapellplatsen', 'Chalmers tvärgata', 'Chalmersplatsen'];
 
@@ -83,10 +87,18 @@
 		return 0;
 	}
 
+	// Order the trips based on their numerical line property value
 	function orderTrips(a, b) {
 		return a.line - b.line;
 	}
 
+	// Formats the time from a departure in a trip and returns the correct format
+	function formatDeparture(time) {
+		time = (time > 0) ? time+'m':'Nu';
+		return time;
+	}
+
+	// Appends the trips of a stop in a list based on the data received from the API
 	function pushTransitResults(stop) {
 		var list = document.querySelector('.transitStop[data-transit-stop="'+stop.stop+'"] ul.trips');
 
@@ -96,8 +108,8 @@
 		if (departures.length > 0) {
 			// Append all trips
 			departures.forEach(function(trip) {
-				var first = trip.departures[0].wait + 'm';
-				var second = (trip.departures.length > 1) ? trip.departures[1].wait + 'm':'-';
+				var first = formatDeparture(trip.departures[0].wait);
+				var second = (trip.departures.length > 1) ? formatDeparture(trip.departures[1].wait):'-';
 
 				list.innerHTML +=
 					'<li>'+
@@ -113,22 +125,43 @@
 		} else {
 			// Append empty message
 			list.classList.add('empty');
-			list.innerHTML = '<li><h6>Kunde inte hitta några avgångar.</h6></li>';
+			list.innerHTML = '<li><h6 class="message">Kunde inte hitta några avgångar.</h6></li>';
 		}
 	}
 
+	// Click handler for transit stops in the stop bar
+	function stopSlideClick() {
+		var index = parseInt(this.getAttribute('data-index'));
+		if (stopSwiper.activeIndex !== index) stopSwiper.slideTo(index, 300);
+	}
+
+	// Initially loads the transit information and manages it.
 	loadTransits(function(stops) {
 		var stops = stops.sort(orderStops);
 
-		stops.forEach(function(item) {
-			stopSwiper.appendSlide('<div class="swiper-slide"><h5>'+item.stop+'</h5></div>');
+		stops.forEach(function(item, i) {
+			var stopSlide = document.createElement('div');
+			stopSlide.classList.add('swiper-slide');
+			stopSlide.setAttribute('data-index', i);
 
-			var slide =
-				'<div class="swiper-slide transitStop" data-transit-stop="'+item.stop+'">'+
-					'<ul class="trips"></ul>'+
-				'</div>'
-			;
-			transitSwiper.appendSlide(slide);
+			stopSlide.addEventListener('click', stopSlideClick);
+
+			var stopText = document.createElement('h5');
+			stopText.innerHTML = item.stop;
+
+			stopSlide.appendChild(stopText);
+			stopSwiper.appendSlide(stopSlide);
+
+			var tripStop = document.createElement('div');
+			tripStop.classList.add('swiper-slide');
+			tripStop.classList.add('transitStop');
+			tripStop.setAttribute('data-transit-stop', item.stop);
+
+			var tripList = document.createElement('ul');
+			tripList.classList.add('trips');
+
+			tripStop.appendChild(tripList);
+			transitSwiper.appendSlide(tripStop);
 			pushTransitResults(item);
 		});
 	});

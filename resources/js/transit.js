@@ -66,8 +66,8 @@
 	// and return the data as parsed JSON data
 	function loadTransits(callback) {
 		var req = new XMLHttpRequest();
-		req.open('GET', 'http://139.59.171.126:1337/api/v2/transit', true);
-		// req.open('GET', 'http://127.0.0.1:1337/api/v2/transit', true);
+		req.open('GET', 'http://139.59.171.126:8888/api/v2/transit', true);
+		// req.open('GET', 'http://127.0.0.1:8888/api/v2/transit', true);
 		req.send();
 		req.onreadystatechange = function() {
 			if (req.readyState === 4 && req.status === 200) callback(JSON.parse(req.responseText));

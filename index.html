@@ -12,12 +12,153 @@
     <link rel="stylesheet" type="text/css" href="resources/css/reset.css">
 		<link rel="stylesheet" type="text/css" href="resources/css/swiper.css">
     <link rel="stylesheet" type="text/css" href="resources/css/style.css">
+		<link rel="stylesheet" type="text/css" href="resources/css/intro.css">
 
 		<script src="resources/js/index.js"></script>
 	</head>
-	<body ontouchstart="" data-render="" data-active-page="schedule" data-active-schedule="main" data-selected-day="" data-display-weeks="false" data-double-schedule="false">
+	<body ontouchstart="" data-hidden="true" data-render="" data-active-page="schedule" data-active-schedule="main" data-selected-day="" data-display-weeks="false" data-double-schedule="false">
 
-		<!-- Fixed drawer -->
+		<div class="loading show display" id="mainLoading">
+			<div class="circle">
+				<svg id="logo_circle" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 100 100" style="enable-background:new 0 0 100 100;" xml:space="preserve"><g><path class="orange" d="M8.8,76.3c-0.8,0-1.6-0.4-2.1-1.2c-8.9-15.2-9-34.3-0.3-49.7c0.6-1.1,2.1-1.5,3.2-0.9c1.1,0.6,1.6,2.1,0.9,3.2C2.7,41.8,2.8,59,10.9,72.7c0.7,1.1,0.3,2.6-0.9,3.3C9.6,76.2,9.2,76.3,8.8,76.3z"/><path class="pink" d="M91,76.7c-0.4,0-0.8-0.1-1.2-0.3c-1.1-0.7-1.5-2.1-0.8-3.3c8.3-14,8.4-31.4,0.3-45.6c-0.7-1.1-0.3-2.6,0.9-3.2c1.2-0.7,2.6-0.3,3.2,0.9c8.9,15.6,8.8,34.9-0.3,50.4C92.6,76.2,91.8,76.7,91,76.7z"/><path class="blue" d="M25.7,11.4c-0.8,0-1.6-0.4-2.1-1.2c-0.7-1.1-0.3-2.6,0.8-3.3C40-2.2,59.3-2.3,74.9,6.6c1.1,0.7,1.5,2.1,0.9,3.2c-0.6,1.1-2.1,1.5-3.2,0.9c-14.1-8.1-31.6-8-45.6,0.3C26.6,11.3,26.1,11.4,25.7,11.4z"/><path class="cyan" d="M50,100c-8.7,0-17.4-2.3-25.1-6.8c-1.1-0.7-1.5-2.1-0.9-3.3c0.7-1.1,2.1-1.5,3.3-0.9c13.8,8,31,8.2,44.9,0.3c1.2-0.6,2.6-0.2,3.2,0.9c0.6,1.1,0.2,2.6-0.9,3.2C66.9,97.9,58.4,100,50,100z"/></g></svg>
+			</div>
+		</div>
+
+		<div id="intro" class="hide" data-page="1" data-double="false">
+
+			<div class="buttons">
+				<div class="button" id="prevIntro">
+					<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"viewBox="0 0 50 50" style="enable-background:new 0 0 50 50;" xml:space="preserve"><rect class="noFill" width="50" height="50"/><g><path class="fill" d="M15.5,24.7c0,0,0-0.1,0-0.1c0-0.1,0.1-0.2,0.2-0.3l6-6c0.2-0.2,0.5-0.3,0.7-0.3c0.3,0,0.5,0.1,0.7,0.3c0.4,0.4,0.4,1,0,1.4L18.8,24h14.7c0.5,0,1,0.5,1,1s-0.5,1-1,1H18.8l4.3,4.3c0.4,0.4,0.4,1,0,1.4s-1,0.4-1.4,0l-6-6c-0.1-0.1-0.2-0.2-0.2-0.3c0,0,0-0.1,0-0.1C15.4,25.1,15.4,24.9,15.5,24.7z"/></g></svg>
+				</div>
+				<div class="button disabled" id="nextIntro">
+					<svg class="next" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"viewBox="0 0 50 50" style="enable-background:new 0 0 50 50;" xml:space="preserve"><rect class="noFill" width="50" height="50"/><g><path class="fill" d="M34.5,25.3c0,0,0,0.1,0,0.1c0,0.1-0.1,0.2-0.2,0.3l-6,6C28,31.9,27.8,32,27.5,32c-0.3,0-0.5-0.1-0.7-0.3c-0.4-0.4-0.4-1,0-1.4l4.3-4.3H16.4c-0.5,0-1-0.5-1-1s0.5-1,1-1h14.7l-4.3-4.3c-0.4-0.4-0.4-1,0-1.4s1-0.4,1.4,0l6,6c0.1,0.1,0.2,0.2,0.2,0.3c0,0,0,0.1,0,0.1C34.6,24.9,34.6,25.1,34.5,25.3z"/></g></svg>
+					<svg class="done" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"viewBox="0 0 50 50" style="enable-background:new 0 0 50 50;" xml:space="preserve"><rect class="noFill" width="50" height="50"/><g><path class="fill" d="M22.3,31.3c-0.3,0-0.5-0.1-0.7-0.3l-5.3-5.3c-0.4-0.4-0.4-1,0-1.4s1-0.4,1.4,0l4.6,4.6l10-10c0.4-0.4,1-0.4,1.4,0s0.4,1,0,1.4L23,31C22.8,31.2,22.6,31.3,22.3,31.3z"/></g></svg>
+				</div>
+			</div>
+
+			<ul class="introduction">
+				<!-- My schedule -->
+				<li>
+					<div class="modal">
+						<div class="header schedule">
+							<h3>Välkommen till ITG Appen!</h3>
+							<p>Kom igång och välj ditt schema.</p>
+						</div>
+						<div class="form">
+							<div class="field typeSwiper">
+								<div class="swiper-container" id="introMyScheduleType">
+			            <div class="swiper-wrapper">
+			              <div class="swiper-slide">Elev</div>
+										<div class="swiper-slide">Lärare</div>
+			              <div class="swiper-slide">Klass</div>
+			              <div class="swiper-slide">Sal</div>
+			            </div>
+			          </div>
+
+								<div class="button disabled left" id="introMyBackType">
+									<img src="resources/img/icons/back-dark.svg" alt="Back icon">
+								</div>
+
+								<div class="button right" id="introMyForwardType">
+									<img src="resources/img/icons/forward-dark.svg" alt="Forward icon">
+								</div>
+							</div>
+							<div class="field">
+								<select id="introMySchedule"></select>
+							</div>
+						</div>
+					</div>
+				</li>
+				<!-- Other schedule -->
+				<li>
+					<div class="modal">
+						<div class="header schedule">
+							<h3>Dubbla scheman</h3>
+							<p>Välj om du vill ha ett extra schema.</p>
+						</div>
+						<div class="field intro">
+							<div class="box" id="toggleIntroDouble">
+								<h5>Dubbla scheman</h5>
+								<div class="switchWrap">
+									<div class="switch" id="introDoubleSchedule"><div class="ball"></div></div>
+								</div>
+							</div>
+						</div>
+						<div class="form doubleForm">
+							<div class="field typeSwiper">
+								<div class="swiper-container" id="introOtherScheduleType">
+			            <div class="swiper-wrapper">
+			              <div class="swiper-slide">Elev</div>
+										<div class="swiper-slide">Lärare</div>
+			              <div class="swiper-slide">Klass</div>
+			              <div class="swiper-slide">Sal</div>
+			            </div>
+			          </div>
+
+								<div class="button disabled left" id="introOtherBackType">
+									<img src="resources/img/icons/back-dark.svg" alt="Back icon">
+								</div>
+
+								<div class="button right" id="introOtherForwardType">
+									<img src="resources/img/icons/forward-dark.svg" alt="Forward icon">
+								</div>
+							</div>
+							<div class="field">
+								<select id="introOtherSchedule"></select>
+							</div>
+						</div>
+					</div>
+				</li>
+				<!-- Schedule titles -->
+				<li>
+					<div class="modal">
+						<div class="header schedule">
+							<h3>Schema titlar</h3>
+							<p>Ange egna titlar på dina scheman.</p>
+						</div>
+						<div class="form">
+							<div class="field">
+								<div class="box btn">
+									<input type="text" id="introMyInput" placeholder="Mitt schema" value="Mitt schema" data-default="Mitt schema">
+									<div class="button clear" id="clearMyInput"></div>
+								</div>
+							</div>
+
+							<div class="field otherInput">
+								<div class="box btn">
+									<input type="text" id="introOtherInput" placeholder="Annat schema" value="Annat schema" data-default="Annat schema">
+									<div class="button clear" id="clearOtherInput"></div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</li>
+				<!-- Calendar -->
+				<li>
+					<div class="modal">
+						<div class="header calendar">
+							<h3>Provkalendern</h3>
+							<p>Välj din klass för att få din provkalender.</p>
+						</div>
+						<div class="form">
+							<div class="field">
+								<select id="introCalendar"></select>
+							</div>
+						</div>
+					</div>
+				</li>
+				<!-- Done -->
+				<li>
+					<div class="modal">
+						<div class="header done">
+							<h3>Då va det klart!</h3>
+							<p>Du kan nu börja använda ITG Appen.<br>Dessa inställningar är inte permanenta och går att hantera under appens inställningar.</p>
+						</div>
+					</div>
+				</li>
+			</ul>
+		</div>
+
     <nav>
       <header>
         <div class="button" id="closeMenu">
@@ -50,7 +191,6 @@
 			</div>
     </nav>
 
-		<!-- Main overlay -->
     <div id="coreOverlay"></div>
 
     <header class="main">
@@ -78,18 +218,18 @@
 			</div>
     </header>
 
-		<!-- Days tabs -->
-		<ul class="days">
-			<span></span>
-			<li data-day="0">Mån</li>
-			<li data-day="1">Tis</li>
-			<li data-day="2">Ons</li>
-			<li data-day="3">Tors</li>
-			<li data-day="4">Fre</li>
-		</ul>
+		<div class="bar dayBar">
+			<ul class="tabs days">
+				<span></span>
+				<li data-day="0">Mån</li>
+				<li data-day="1">Tis</li>
+				<li data-day="2">Ons</li>
+				<li data-day="3">Tors</li>
+				<li data-day="4">Fre</li>
+			</ul>
+		</div>
 
-		<!-- Weeks overlaying bar -->
-		<div class="weeks">
+		<div class="bar weeks">
 			<div class="button" id="previousWeek">
 				<img src="resources/img/icons/back-dark.svg" alt="Change week icon">
 			</div>
@@ -103,14 +243,20 @@
 			</div>
 		</div>
 
-		<!-- Transit stops swiper overlaying bar -->
 		<div class="bar stops">
 			<div class="swiper-container" id="stops">
 				<div class="swiper-wrapper"></div>
 			</div>
 		</div>
 
-		<!-- Schedule page -->
+		<div class="bar foodBar">
+			<ul class="tabs food" data-selected="cafe">
+				<span></span>
+				<li data-tab="cafe">Elevcaféet</li>
+				<li data-tab="lunch">Lunch</li>
+			</ul>
+		</div>
+
 		<section id="schedule" class="display">
 			<div class="schedules">
 				<div class="schedule main">
@@ -127,22 +273,44 @@
 			</div>
 		</section>
 
-		<!-- Calendar page -->
 		<section id="calendar">
 			<ul class="events" id="calendarEvents"></ul>
 		</section>
 
-		<!-- Cafe page -->
-		<section id="food"></section>
+		<section id="food">
+			<div class="swiper-container" id="foodTabs">
+				<div class="swiper-wrapper">
+					<div class="swiper-slide" id="cafe">
+						<div class="section clickable">
+							<div class="status">
+								<h5 class="open">Öppet som vanligt</h5>
+								<p class="small">07:30 - 16:00</p>
+							</div>
+							<div class="statusArrow">
+								<img src="resources/img/icons/arrow-right-light.svg" alt="Arrow right icon">
+							</div>
+						</div>
 
-		<!-- Transit page -->
+						<div class="section margin">
+							<header>
+								<h5>Prislista</h5>
+							</header>
+							<ul class="pricelist"></ul>
+						</div>
+					</div>
+					<div class="swiper-slide" id="lunch">
+						<ul class="lunch"></ul>
+					</div>
+				</div>
+			</div>
+		</section>
+
 		<section id="transit">
 			<div class="swiper-container" id="transitSwiper">
 				<div class="swiper-wrapper"></div>
 			</div>
 		</section>
 
-		<!-- Settings page -->
 		<div id="settings">
 			<header>
 				<div class="button" id="closeSettings">
@@ -155,7 +323,6 @@
 				<div class="field toggleDoubleSchedule">
 					<div class="box">
 						<h5>Dubbla scheman</h5>
-						<!-- Schedule switch -->
 						<div class="switchWrap">
 							<div class="switch" id="doubleSchedule"><div class="ball"></div></div>
 						</div>
@@ -200,13 +367,11 @@
 				<hr>
 
 				<div class="buttons">
-					<button class="warning mrg" id="reset">Återställ</button>
-					<button class="primary" id="export">Exportera</button>
+					<button class="warning" id="reset">Återställ</button>
 				</div>
 			</div>
 		</div>
 
-    <!-- Schedule picker modal -->
     <div class="modalWrapper" id="picker" data-pick-for="">
 			<div class="modalContainer">
 				<div class="modal back">
@@ -219,17 +384,17 @@
 		          <div class="swiper-container" id="scheduleType">
 		            <div class="swiper-wrapper">
 		              <div class="swiper-slide">Elev</div>
+									<div class="swiper-slide">Lärare</div>
 		              <div class="swiper-slide">Klass</div>
-		              <div class="swiper-slide">Lärare</div>
 		              <div class="swiper-slide">Sal</div>
 		            </div>
 		          </div>
 
-							<div class="button disabled" id="backType">
+							<div class="button disabled left" id="backType">
 								<img src="resources/img/icons/back-dark.svg" alt="Back icon">
 							</div>
 
-							<div class="button" id="forwardType">
+							<div class="button right" id="forwardType">
 								<img src="resources/img/icons/forward-dark.svg" alt="Forward icon">
 							</div>
 		        </div>
@@ -252,7 +417,6 @@
 			</div>
     </div>
 
-		<!-- Calendar event modal -->
 		<div class="modalWrapper" id="event">
 			<div class="modalContainer">
 				<div class="modal">
@@ -265,7 +429,6 @@
 		</div>
 
 
-		<!-- JavaScript files -->
 		<script src="resources/js/libs/moment.js"></script>
 		<script src="resources/js/libs/swiper.js"></script>
 		<script src="resources/js/libs/fastclick.js"></script>
@@ -276,5 +439,6 @@
 		<script src="resources/js/calendar.js"></script>
 		<script src="resources/js/food.js"></script>
 		<script src="resources/js/transit.js"></script>
+		<script src="resources/js/intro.js"></script>
 	</body>
 </html>

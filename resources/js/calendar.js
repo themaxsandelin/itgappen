@@ -205,9 +205,8 @@
     hideModal('#event');
   });
 
-	// Get all calendar events and then push the data to the calendar page
-	// if there is a settings chosen for the calendar
-	if (settings.calendar) {
+	function calendarSetup() {
+		// Get all calendar events and then push the data to the calendar page
 		getCalendarEvents(calendarUrlFactory(settings.calendar.id), function(res) {
 			pushCalendarEvents(JSON.parse(res).items);
 		});

@@ -66,8 +66,8 @@
 	// and return the data as parsed JSON data
 	function loadTransits(callback) {
 		var req = new XMLHttpRequest();
-		req.open('GET', 'http://139.59.171.126:1337/api/v2/transit', true);
-		// req.open('GET', 'http://127.0.0.1:1337/api/v2/transit', true);
+		req.open('GET', 'http://139.59.171.126:1337/api/2/transit', true);
+		// req.open('GET', 'http://127.0.0.1:1337/api/2/transit', true);
 		req.send();
 		req.onreadystatechange = function() {
 			if (req.readyState === 4 && req.status === 200) callback(JSON.parse(req.responseText));
@@ -135,33 +135,35 @@
 		if (stopSwiper.activeIndex !== index) stopSwiper.slideTo(index, 300);
 	}
 
-	// Initially loads the transit information and manages it.
-	loadTransits(function(stops) {
-		var stops = stops.sort(orderStops);
+	function transitSetup() {
+		// Initially loads the transit information and manages it.
+		loadTransits(function(stops) {
+			var stops = stops.sort(orderStops);
 
-		stops.forEach(function(item, i) {
-			var stopSlide = document.createElement('div');
-			stopSlide.classList.add('swiper-slide');
-			stopSlide.setAttribute('data-index', i);
+			stops.forEach(function(item, i) {
+				var stopSlide = document.createElement('div');
+				stopSlide.classList.add('swiper-slide');
+				stopSlide.setAttribute('data-index', i);
 
-			stopSlide.addEventListener('click', stopSlideClick);
+				stopSlide.addEventListener('click', stopSlideClick);
 
-			var stopText = document.createElement('h5');
-			stopText.innerHTML = item.stop;
+				var stopText = document.createElement('h5');
+				stopText.innerHTML = item.stop;
 
-			stopSlide.appendChild(stopText);
-			stopSwiper.appendSlide(stopSlide);
+				stopSlide.appendChild(stopText);
+				stopSwiper.appendSlide(stopSlide);
 
-			var tripStop = document.createElement('div');
-			tripStop.classList.add('swiper-slide');
-			tripStop.classList.add('transitStop');
-			tripStop.setAttribute('data-transit-stop', item.stop);
+				var tripStop = document.createElement('div');
+				tripStop.classList.add('swiper-slide');
+				tripStop.classList.add('transitStop');
+				tripStop.setAttribute('data-transit-stop', item.stop);
 
-			var tripList = document.createElement('ul');
-			tripList.classList.add('trips');
+				var tripList = document.createElement('ul');
+				tripList.classList.add('trips');
 
-			tripStop.appendChild(tripList);
-			transitSwiper.appendSlide(tripStop);
-			pushTransitResults(item);
+				tripStop.appendChild(tripList);
+				transitSwiper.appendSlide(tripStop);
+				pushTransitResults(item);
+			});
 		});
-	});
+	}

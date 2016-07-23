@@ -1,6 +1,6 @@
 
-	var currentPage = 'schedule',
-			titles = {
+	var currentPage = 'schedule';
+	var titles = {
 				'calendar': 'Kalender',
 				'food': 'Lunch & fika',
 				'transit': 'Kollektivtrafik',
@@ -76,8 +76,8 @@
 
 	// Shows the main navigation drawer through a class animation
   function showDrawer() {
-		var nav = document.querySelector('nav'),
-	      overlay = document.querySelector('#coreOverlay');
+		var nav = document.querySelector('nav');
+		var overlay = document.querySelector('#coreOverlay');
 
     overlay.classList.add('display');
     setTimeout(function() {
@@ -88,8 +88,8 @@
 
 	// Hides the main navigation drawer through a class animation
   function hideDrawer() {
-		var nav = document.querySelector('nav'),
-	      overlay = document.querySelector('#coreOverlay');
+		var nav = document.querySelector('nav');
+		var overlay = document.querySelector('#coreOverlay');
 
     overlay.classList.remove('show');
     nav.classList.remove('show');

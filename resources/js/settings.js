@@ -23,22 +23,7 @@
   // Retrieves stored settings from localStorage, though if there is none(null) it returns a base object for settings
   function getStoredSettings() {
 		var stored = (localStorage.getItem('itgappen_settings')) ? JSON.parse(localStorage.getItem('itgappen_settings')):{};
-    var keys = Object.keys(stored);
-
-    if (keys.indexOf('double') === -1) stored.double = true;
-		if (!stored.main) stored.main = {};
-		if (!stored.other) stored.other = {};
-
-		if (!stored.main.title) stored.main.title = 'Mitt schema';
-		if (!stored.other.title) stored.other.title = 'Annat schema';
-
-		if (!stored.main.id) stored.main.id = '{1AFAF6FA-4F7D-42FB-8916-97BE0AD20A91}';
-		if (!stored.other.id) stored.other.id = '{09EF1F69-CBD3-4FFC-B613-8967B2106FE9}';
-
-		if (!stored.main.name) stored.main.name = '2C Joel Eriksson';
-		if (!stored.other.name) stored.other.name = 'Johan Kivi';
-
-    return stored;
+		return stored;
   }
 
   function saveSettings() {
@@ -60,8 +45,8 @@
   // GET request to the API to get all schedule data
 	function getSchedules(callback) {
 		var req = new XMLHttpRequest();
-		req.open('GET', 'http://139.59.171.126:1337/api/v2/schedules', true);
-		// req.open('GET', 'http://127.0.0.1:1337/api/v2/schedules', true);
+		req.open('GET', 'http://139.59.171.126:1337/api/2/schedules', true);
+		// req.open('GET', 'http://127.0.0.1:1337/api/2/schedules', true);
 		req.send();
 		req.onreadystatechange = function() {
 			if (req.readyState == 4 && req.status == 200) callback(JSON.parse(req.responseText));
@@ -69,8 +54,8 @@
 	}
 
   // Pushes out the calendar list to the settings page
-	function pushCalendarLists(list) {
-		var settings = document.getElementById('calendarSource');
+	function pushCalendarLists(list, element) {
+		var settings = document.getElementById(element);
 		settings.innerHTML = '<option value="0" selected disabled>Välj klass..</option>';
 		list.forEach(function(item, i) {
 			settings.innerHTML += '<option value="'+item.calendar+'">'+item.name+'</option>';
@@ -80,12 +65,13 @@
   // Toggles the double schedule setting off and on both in the UI and in the settings object.
   function toggleDoubleSchedule(e) {
     var sw = document.getElementById('doubleSchedule');
-    sw.classList.toggle('on');
     settings.double = !settings.double;
 
 		if (settings.double) {
+			sw.classList.add('on');
 			enableDoubleSchedule();
 		} else {
+			sw.classList.remove('on');
 			disableDoubleSchedule();
 		}
     saveSettings();
@@ -217,7 +203,7 @@
 
 	function resetPicker() {
 		typeSwiper.slideTo(0, 0);
-		setPickerList('students', schedules.students);
+		setDataList('students', schedules.students, 'allSource');
 	}
 
 	function updatePickerType(swiper) {
@@ -242,25 +228,25 @@
 				next.classList.remove('disabled');
 
 				if (i === 1) {
-					type = 'classes';
-					list = schedules.classes;
-				} else if (i === 2) {
 					type = 'teachers';
 					list = schedules.teachers;
+				} else if (i === 2) {
+					type = 'classes';
+					list = schedules.classes;
 				}
 			}
 		}
 
-		setPickerList(type, list);
+		setDataList(type, list, 'allSource');
 	}
 
-	function setPickerList(type, list) {
-		var select = document.getElementById('allSource');
+	function setDataList(type, list, element) {
+		var select = document.getElementById(element);
 		var text;
 		if (type === 'students') text = 'Välj elev..';
 		else if (type === 'teachers') text = 'Välj lärare..';
 		else if (type === 'classes') text = 'Välj klass..';
-		else text = 'Välj klassrum..';
+		else text = 'Välj sal..';
 
 		select.innerHTML = '<option selected value="0">'+text+'</option>';
 		for (var s = 0; s < list.length; s++) {
@@ -268,9 +254,9 @@
 			var option = document.createElement('option');
 			option.value = item.schedule;
 			option.innerHTML = item.name;
+			if (type === 'students') option.setAttribute('data-class', item.class);
 
 			select.appendChild(option);
-			// select.innerHTML += '<option value="'+item.schedule+'">'+item.name+'</option>';
 		}
 	}
 
@@ -301,24 +287,11 @@
 		hideModal('#picker');
 	}
 
-  // Basic setup that calls methods for setting up the app.
-  function setupActions() {
-    updateSettingsValues();
-  }
-
   // Add click event for all double schedule toggles.
   var items = document.querySelectorAll('.toggleDoubleSchedule');
   for (var i = 0; i < items.length; i++) {
     items[i].addEventListener('click', toggleDoubleSchedule);
   }
-
-  getSchedules(function(list) {
-		schedules = list;
-    pushCalendarLists(list.classes);
-
-    // Run the basic setup
-    setupActions();
-  });
 
   // Click on the clear icon of the schedule titles
   document.getElementById('clearMain').addEventListener('click', clearScheduleTitle);
@@ -374,3 +347,22 @@
 			saveScheduleChange();
 		}
 	});
+
+	document.getElementById('reset').addEventListener('click', function() {
+		localStorage.removeItem('itgappen_settings');
+	});
+
+	// Basic setup that calls methods for setting up the app.
+  function settingsSetup() {
+    updateSettingsValues();
+  }
+
+  getSchedules(function(list) {
+		schedules = list;
+    pushCalendarLists(list.classes, 'calendarSource');
+		pushCalendarLists(list.classes, 'introCalendar');
+		setDataList('students', list.students, 'introMySchedule');
+		setDataList('students', list.students, 'introOtherSchedule');
+
+		setupApplication();
+  });

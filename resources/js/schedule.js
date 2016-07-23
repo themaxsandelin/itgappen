@@ -21,14 +21,14 @@
 	var mainSwiper = new Swiper('.swiper-container#main', {
 		onProgress: sliderMove,
 		onSetTransition: sliderTransition,
-		onSlideChangeStart: slideChange
+		onSlideChangeStart: sliderChange
 	});
 
 	// Other schedule slider
 	var otherSwiper = new Swiper('.swiper-container#other', {
 		onProgress: sliderMove,
 		onSetTransition: sliderTransition,
-		onSlideChangeStart: slideChange
+		onSlideChangeStart: sliderChange
 	});
 
 	var weekSwiper = new Swiper('.swiper-container#weeks', {
@@ -55,7 +55,7 @@
 	}
 
 	// Update the selected day when the active swiper changes slide index.
-	function slideChange(swiper) {
+	function sliderChange(swiper) {
 		var i = swiper.container[0].id;
 		var s = document.querySelector('body').getAttribute('data-active-schedule');
 
@@ -312,20 +312,20 @@
 		weekSwiper.slidePrev();
 	});
 
-
 	// Init events
+	function scheduleSetup() {
+		// Build the main schedule
+		pushScheduleImages(mainSwiper, scheduleUrlFactory(settings.main.id, mainWeek), mainDay);
 
-	// Build the main schedule
-	pushScheduleImages(mainSwiper, scheduleUrlFactory(settings.main.id, mainWeek), mainDay);
+		// If the double schedule is turned on, build the other schedule
+		if (settings.double) {
+			builtOtherSchedule = true;
+			pushScheduleImages(otherSwiper, scheduleUrlFactory(settings.other.id, otherWeek), otherDay);
+		}
 
-	// If the double schedule is turned on, build the other schedule
-	if (settings.double) {
-		builtOtherSchedule = true;
-		pushScheduleImages(otherSwiper, scheduleUrlFactory(settings.other.id, otherWeek), otherDay);
+		// Push out the current week number
+		pushWeekNumber();
+
+		// Setup the week slider
+		populateWeekSlider();
 	}
-
-	// Push out the current week number
-	pushWeekNumber();
-
-	// Setup the week slider
-	populateWeekSlider();

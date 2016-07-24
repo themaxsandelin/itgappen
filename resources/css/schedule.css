@@ -1,0 +1,65 @@
+@charset "UTF-8";
+
+section#schedule {
+	height:100vh;
+	padding:96px 0 0 0;
+	overflow:hidden;
+}
+
+body[data-render="ios"] section#schedule {
+	padding:116px 0 0 0;
+}
+
+body[data-active-page="schedule"][data-display-weeks="true"] section {
+	-webkit-transform:translate3d(0px,40px,0px);
+	-moz-transform:translate3d(0px,40px,0px);
+	-ms-transform:translate3d(0px,40px,0px);
+	-o-transform:translate3d(0px,40px,0px);
+	transform:translate3d(0px,40px,0px);
+}
+
+section#schedule .schedules {
+	width:200%;
+	height:100%;
+	max-height:100%;
+	overflow:hidden;
+	float:left;
+	position:relative;
+
+	-webkit-transition:-webkit-transform 0.3s ease;
+	-moz-transition:-moz-transform 0.3s ease;
+	-ms-transition:-ms-transform 0.3s ease;
+	-o-transition:-o-transform 0.3s ease;
+	transition:transform 0.3s ease;
+}
+
+body[data-active-schedule="other"] .schedules {
+	-webkit-transform:translate3d(-50%,0px,0px);
+	-moz-transform:translate3d(-50%,0px,0px);
+	-ms-transform:translate3d(-50%,0px,0px);
+	-o-transform:translate3d(-50%,0px,0px);
+	transform:translate3d(-50%,0px,0px);
+}
+
+section#schedule .schedules .schedule {
+	width:50%;
+	height:100%;
+	float:left;
+	position:relative;
+	overflow:scroll;
+	-webkit-overflow-scrolling:touch;
+}
+
+section#schedule .schedules .schedule .swiper-container {
+	width:100%;
+}
+
+section#schedule .schedules .schedule .swiper-container .swiper-wrapper .swiper-slide {
+	padding:15px;
+}
+
+section#schedule .schedules .schedule .swiper-container .swiper-wrapper .swiper-slide img {
+	width:100%;
+	float:left;
+	box-shadow:0px 1px 4px rgba(0,0,0,0.1);
+}

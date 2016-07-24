@@ -13,10 +13,16 @@
 		<link rel="stylesheet" type="text/css" href="resources/css/swiper.css">
     <link rel="stylesheet" type="text/css" href="resources/css/style.css">
 		<link rel="stylesheet" type="text/css" href="resources/css/intro.css">
+		<link rel="stylesheet" type="text/css" href="resources/css/loading.css">
+		<link rel="stylesheet" type="text/css" href="resources/css/schedule.css">
+		<link rel="stylesheet" type="text/css" href="resources/css/calendar.css">
+		<link rel="stylesheet" type="text/css" href="resources/css/food.css">
+		<link rel="stylesheet" type="text/css" href="resources/css/transit.css">
+		<link rel="stylesheet" type="text/css" href="resources/css/settings.css">
 
 		<script src="resources/js/index.js"></script>
 	</head>
-	<body ontouchstart="" data-hidden="true" data-render="" data-active-page="schedule" data-active-schedule="main" data-selected-day="" data-display-weeks="false" data-double-schedule="false">
+	<body ontouchstart="" data-hidden="true" data-render="ios" data-active-page="schedule" data-active-schedule="main" data-selected-day="" data-display-weeks="false" data-double-schedule="false">
 
 		<div class="loading show display" id="mainLoading">
 			<div class="circle">
@@ -257,59 +263,63 @@
 			</ul>
 		</div>
 
-		<section id="schedule" class="display">
-			<div class="schedules">
-				<div class="schedule main">
-					<div class="swiper-container" id="main">
-						<div class="swiper-wrapper"></div>
-					</div>
-				</div>
-
-				<div class="schedule other">
-					<div class="swiper-container" id="other">
-						<div class="swiper-wrapper"></div>
-					</div>
-				</div>
-			</div>
-		</section>
-
-		<section id="calendar">
-			<ul class="events" id="calendarEvents"></ul>
-		</section>
-
-		<section id="food">
-			<div class="swiper-container" id="foodTabs">
-				<div class="swiper-wrapper">
-					<div class="swiper-slide" id="cafe">
-						<div class="section clickable">
-							<div class="status">
-								<h5 class="open">Öppet som vanligt</h5>
-								<p class="small">07:30 - 16:00</p>
-							</div>
-							<div class="statusArrow">
-								<img src="resources/img/icons/arrow-right-light.svg" alt="Arrow right icon">
-							</div>
-						</div>
-
-						<div class="section margin">
-							<header>
-								<h5>Prislista</h5>
-							</header>
-							<ul class="pricelist"></ul>
+		<div id="app">
+			<section id="schedule" class="display">
+				<div class="schedules">
+					<div class="schedule main">
+						<div class="swiper-container" id="main">
+							<div class="swiper-wrapper"></div>
 						</div>
 					</div>
-					<div class="swiper-slide" id="lunch">
-						<ul class="lunch"></ul>
+
+					<div class="schedule other">
+						<div class="swiper-container" id="other">
+							<div class="swiper-wrapper"></div>
+						</div>
 					</div>
 				</div>
-			</div>
-		</section>
+			</section>
 
-		<section id="transit">
-			<div class="swiper-container" id="transitSwiper">
-				<div class="swiper-wrapper"></div>
-			</div>
-		</section>
+			<section id="calendar">
+				<div class="calendarList">
+					<ul class="events" id="calendarEvents"></ul>
+				</div>
+			</section>
+
+			<section id="food">
+				<div class="swiper-container" id="foodTabs">
+					<div class="swiper-wrapper">
+						<div class="swiper-slide" id="cafe">
+							<div class="section clickable">
+								<div class="status">
+									<h5 class="open">Öppet som vanligt</h5>
+									<p class="small">07:30 - 16:00</p>
+								</div>
+								<div class="statusArrow">
+									<img src="resources/img/icons/arrow-right-light.svg" alt="Arrow right icon">
+								</div>
+							</div>
+
+							<div class="section margin">
+								<header>
+									<h5>Prislista</h5>
+								</header>
+								<ul class="pricelist"></ul>
+							</div>
+						</div>
+						<div class="swiper-slide" id="lunch">
+							<ul class="lunch"></ul>
+						</div>
+					</div>
+				</div>
+			</section>
+
+			<section id="transit">
+				<div class="swiper-container" id="transitSwiper">
+					<div class="swiper-wrapper"></div>
+				</div>
+			</section>
+		</div>
 
 		<div id="settings">
 			<header>

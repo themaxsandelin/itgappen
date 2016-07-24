@@ -1,0 +1,86 @@
+@charset "UTF-8";
+
+#settings {
+	width:100%;
+	height:100vh;
+	position:fixed;
+	top:100%;
+	left:0;
+	z-index:12;
+	background:#f1eff5;
+	display:none;
+	padding:56px 0 0 0;
+	overflow:hidden;
+
+	-webkit-transition:-webkit-transform 0.3s ease;
+	-moz-transition:-moz-transform 0.3s ease;
+	-ms-transition:-ms-transform 0.3s ease;
+	-o-transition:-o-transform 0.3s ease;
+	transition:transform 0.3s ease;
+}
+
+body[data-render="ios"] #settings {
+	padding:76px 0 0 0;
+}
+
+#otherField {
+	position:relative;
+
+	-webkit-transition:opacity 0.3s ease;
+	-moz-transition:opacity 0.3s ease;
+	-ms-transition:opacity 0.3s ease;
+	-o-transition:opacity 0.3s ease;
+	transition:opacity 0.3s ease;
+}
+
+body[data-double-schedule="false"] #otherField {
+	opacity:0.5;
+}
+
+body[data-double-schedule="false"] #otherField:before {
+	content:'';
+	width:100%;
+	height:100%;
+	position:absolute;
+	top:0;
+	left:0;
+	z-index:2;
+}
+
+#settings header {
+	background:#2a383c;
+	position:absolute;
+	top:0;
+	left:0;
+}
+
+#settings.display {
+	display:block;
+}
+
+#settings.show {
+	-webkit-transform:translate3d(0px,-100%,0px);
+	-moz-transform:translate3d(0px,-100%,0px);
+	-ms-transform:translate3d(0px,-100%,0px);
+	-o-transform:translate3d(0px,-100%,0px);
+	transform:translate3d(0px,-100%,0px);
+}
+
+#settings .content {
+	width:100%;
+	height:100%;
+	float:left;
+	position:relative;
+	padding:15px;
+	overflow:scroll;
+	-webkit-overflow-scrolling:touch;
+}
+
+#settings .content hr {
+	width:100%;
+	max-width:160px;
+	height:1px;
+	border:0px;
+	background:rgba(42,56,60,0.1);
+	margin:5px auto 15px auto;
+}

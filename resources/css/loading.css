@@ -1,5 +1,23 @@
 @charset "UTF-8";
 
+.pageLoader {
+	width:100%;
+	height:100%;
+	position:absolute;
+	top:0;
+	left:0;
+	z-index:4;
+	background:rgba(255,255,255,0.75);
+	display:none;
+	opacity:0;
+
+	-webkit-transition:opacity 0.3s ease;
+	-moz-transition:opacity 0.3s ease;
+	-ms-transition:opacity 0.3s ease;
+	-o-transition:opacity 0.3s ease;
+	transition:opacity 0.3s ease;
+}
+
 .loading {
 	width:100%;
 	height:100%;
@@ -18,15 +36,15 @@
 	transition:opacity 0.3s ease;
 }
 
-.loading.show {
+.loading.show, .pageLoader.show {
 	opacity:1;
 }
 
-.loading.display {
+.loading.display, .pageLoader.display {
 	display:block;
 }
 
-.loading.show .circle {
+.loading.show .circle, .pageLoader.show .circle  {
 	-webkit-transform:scale(1);
 	-moz-transform:scale(1);
 	-ms-transform:scale(1);
@@ -34,7 +52,7 @@
 	transform:scale(1);
 }
 
-.loading .circle {
+.loading .circle, .pageLoader .circle {
 	width:50px;
 	height:50px;
 	position:absolute;
@@ -55,33 +73,57 @@
 	transition:transform 0.3s ease;
 }
 
-.loading svg {
+.pageLoader .circle {
+	margin:3px 0 0 -25px;
+}
+
+body[data-render="ios"] .pageLoader .circle {
+	margin:13px 0 0 -25px;
+}
+
+#schedule .pageLoader .circle, #food .pageLoader .circle {
+	margin:23px 0 0 -25px;
+}
+
+body[data-render="ios"] #schedule .pageLoader .circle, body[data-render="ios"] #food .pageLoader .circle {
+	margin:33px 0 0 -25px;
+}
+
+#transit .pageLoader .circle {
+	margin:28px 0 0 -25px;
+}
+
+body[data-render="ios"] #transit .pageLoader .circle {
+	margin:38px 0 0 -25px;
+}
+
+.loading svg, .pageLoader svg {
 	width:100%;
 	height:100%;
 	float:left;
 }
 
-.loading svg .white {
+.loading svg .white, .pageLoader svg .white {
 	fill:#fff;
 }
 
-.loading svg .blue {
+.loading svg .blue, .pageLoader svg .blue {
 	fill:#0a96cf;
 }
 
-.loading svg .pink {
+.loading svg .pink, .pageLoader svg .pink {
 	fill:#e91589;
 }
 
-.loading svg .cyan {
+.loading svg .cyan, .pageLoader svg .cyan {
 	fill:#18b1d3;
 }
 
-.loading svg .orange {
+.loading svg .orange, .pageLoader svg .orange {
 	fill:#f7932d;
 }
 
-.loading svg#logo_circle {
+.loading svg.logo_circle, .pageLoader svg.logo_circle {
 	-webkit-animation:loading 1.8s infinite linear;
 	animation:loading 1.8s infinite linear;
 

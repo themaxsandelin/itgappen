@@ -329,3 +329,18 @@
 		// Setup the week slider
 		populateWeekSlider();
 	}
+
+	function updateSchedules(callback) {
+		mainDay = otherDay = day;
+		mainSwiper.slideTo(day, 0);
+		otherSwiper.slideTo(day, 0);
+
+		pushScheduleImages(mainSwiper, scheduleUrlFactory(settings.main.id, mainWeek), mainDay);
+		if (settings.double) {
+			pushScheduleImages(otherSwiper, scheduleUrlFactory(settings.other.id, otherWeek), otherDay);
+		}
+		pushWeekNumber();
+		populateWeekSlider();
+
+		callback();
+	}

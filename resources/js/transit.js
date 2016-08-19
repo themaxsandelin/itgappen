@@ -135,35 +135,49 @@
 		if (stopSwiper.activeIndex !== index) stopSwiper.slideTo(index, 300);
 	}
 
+	function pushTransitStops(stops, callback) {
+		stopSwiper.removeAllSlides();
+		transitSwiper.removeAllSlides();
+		stops.forEach(function(item, i) {
+			var stopSlide = document.createElement('div');
+			stopSlide.classList.add('swiper-slide');
+			stopSlide.setAttribute('data-index', i);
+
+			stopSlide.addEventListener('click', stopSlideClick);
+
+			var stopText = document.createElement('h5');
+			stopText.innerHTML = item.stop;
+
+			stopSlide.appendChild(stopText);
+			stopSwiper.appendSlide(stopSlide);
+
+			var tripStop = document.createElement('div');
+			tripStop.classList.add('swiper-slide');
+			tripStop.classList.add('transitStop');
+			tripStop.setAttribute('data-transit-stop', item.stop);
+
+			var tripList = document.createElement('ul');
+			tripList.classList.add('trips');
+
+			tripStop.appendChild(tripList);
+			transitSwiper.appendSlide(tripStop);
+			pushTransitResults(item);
+		});
+
+		if (callback) callback();
+	}
+
 	function transitSetup() {
 		// Initially loads the transit information and manages it.
 		loadTransits(function(stops) {
-			var stops = stops.sort(orderStops);
+			pushTransitStops(stops.sort(orderStops));
+		});
+	}
 
-			stops.forEach(function(item, i) {
-				var stopSlide = document.createElement('div');
-				stopSlide.classList.add('swiper-slide');
-				stopSlide.setAttribute('data-index', i);
-
-				stopSlide.addEventListener('click', stopSlideClick);
-
-				var stopText = document.createElement('h5');
-				stopText.innerHTML = item.stop;
-
-				stopSlide.appendChild(stopText);
-				stopSwiper.appendSlide(stopSlide);
-
-				var tripStop = document.createElement('div');
-				tripStop.classList.add('swiper-slide');
-				tripStop.classList.add('transitStop');
-				tripStop.setAttribute('data-transit-stop', item.stop);
-
-				var tripList = document.createElement('ul');
-				tripList.classList.add('trips');
-
-				tripStop.appendChild(tripList);
-				transitSwiper.appendSlide(tripStop);
-				pushTransitResults(item);
+	function updateTransit(callback) {
+		loadTransits(function(stops) {
+			pushTransitStops(stops.sort(orderStops), function() {
+				callback();
 			});
 		});
 	}

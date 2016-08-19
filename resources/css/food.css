@@ -45,20 +45,22 @@ body[data-render="ios"] #food {
 	padding:18px 50px 18px 20px;
 }
 
+.status.open h5 {
+	color:#5fbd6f;
+}
+
+.status.closed h5 {
+	color:#f05151;
+}
+
 .status h5 {
 	width:100%;
 	line-height:18px;
 }
 
-.status h5.open {
-	color:#5fbd6f;
-}
-
-.status h5.closed {
-	color:#f05151;
-}
-
-.status p.small {
+.status p {
+	font-size:10px;
+	font-weight:500;
 	line-height:10px;
 	color:#899baa;
 	margin:7px 0 0 0;
@@ -232,4 +234,108 @@ ul.lunch li .content span:first-of-type {
 ul.lunch li .content.nope span {
 	font-weight:bold;
 	color:#f05151;
+}
+
+#hours .modalContainer .modal header {
+	background:#f7932d;
+}
+
+#hours .inner {
+	padding:0 15px;
+}
+
+#hours .cafeStatus {
+	width:100%;
+	float:left;
+	padding:20px 0;
+}
+
+#hours .cafeStatus.opened h5 {
+	color:#5fbd6f;
+}
+
+#hours .cafeStatus.closed h5 {
+	color:#f05252;
+}
+
+#hours .cafeStatus h5 {
+	width:100%;
+	text-align:center;
+}
+
+#hours .cafeStatus p {
+	width:100%;
+	text-align:center;
+	color:#889baa;
+}
+
+.hoursSwiper {
+	width:100%;
+	float:left;
+	position:relative;
+}
+
+.hoursSwiper button {
+	width:14px;
+	height:100%;
+	position:absolute;
+	top:0;
+	background:none;
+	border-radius:0px;
+	box-shadow:none;
+	cursor:pointer;
+	z-index:2;
+
+	-webkit-transition:opacity 0.2s ease;
+	-moz-transition:opacity 0.2s ease;
+	-ms-transition:opacity 0.2s ease;
+	-o-transition:opacity 0.2s ease;
+	transition:opacity 0.2s ease;
+}
+
+.hoursSwiper button.disabled {
+	opacity:0.25;
+	pointer-events:none;
+}
+
+.hoursSwiper button#backHour {
+	background:url(../img/icons/back-dark.svg) no-repeat center center;
+	background-size:14px;
+	left:0;
+}
+
+.hoursSwiper button#forwardHour {
+	background:url(../img/icons/forward-dark.svg) no-repeat center center;
+	background-size:14px;
+	right:0;
+}
+
+#hoursList {
+	width:100%;
+	float:left;
+	border-top:1px solid #eee;
+	padding:20px 0;
+}
+
+#hoursList .swiper-slide h5 {
+	width:100%;
+	text-align:center;
+	line-height:16px;
+	color:#2a383c;
+}
+
+#hoursList .swiper-slide.today h5 {
+	color:#f7932d;
+}
+
+#hoursList .swiper-slide p {
+	width:100%;
+	text-align:center;
+	line-height:12px;
+	margin:8px 0 0 0;
+	color:#2a383c;
+}
+
+#hoursList .swiper-slide p.sub {
+	color:#889baa;
 }

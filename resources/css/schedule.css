@@ -63,3 +63,39 @@ section#schedule .schedules .schedule .swiper-container .swiper-wrapper .swiper-
 	float:left;
 	box-shadow:0px 1px 4px rgba(0,0,0,0.1);
 }
+
+body[data-active-page="schedule"] .bar.dayBar {
+	-webkit-transform:translate3d(0px,56px,0px);
+	-moz-transform:translate3d(0px,56px,0px);
+	-ms-transform:translate3d(0px,56px,0px);
+	-o-transform:translate3d(0px,56px,0px);
+	transform:translate3d(0px,56px,0px);
+
+	opacity:1;
+}
+
+ul.tabs.days span {
+	width:20%;
+	background:#0996cf;
+}
+
+ul.tabs.days li {
+	width:20%;
+	color:#2a383c;
+}
+
+body[data-selected-day="0"] ul.tabs.days li[data-day="0"] {
+	opacity:1;
+}
+body[data-selected-day="1"] ul.tabs.days li[data-day="1"] {
+	opacity:1;
+}
+body[data-selected-day="2"] ul.tabs.days li[data-day="2"] {
+	opacity:1;
+}
+body[data-selected-day="3"] ul.tabs.days li[data-day="3"] {
+	opacity:1;
+}
+body[data-selected-day="4"] ul.tabs.days li[data-day="4"] {
+	opacity:1;
+}

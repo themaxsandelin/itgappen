@@ -255,7 +255,7 @@ function showLoading() {
 	var l = document.getElementById('mainLoading');
 	l.classList.add('display');
 	setTimeout(function() {
-		l.classList.add('hide');
+		l.classList.add('show');
 	}, 20);
 }
 

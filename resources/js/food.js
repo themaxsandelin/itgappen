@@ -7,6 +7,18 @@
 		onSlideChangeStart: sliderChange
 	});
 
+	var hourSwiper = new Swiper('#hoursList', {
+		observer: true,
+    observeParents: true,
+		onSlideChangeStart: hourChange
+	});
+
+	function setDayOfWeek(d) {
+		d = d - 1;
+		if (d > 4 || d === -1) d = 0;
+		return d;
+	}
+
 	// Update the selected day when the active swiper changes slide index.
 	function sliderChange(swiper) {
 		var arr = document.querySelector('ul.food').querySelectorAll('li');
@@ -93,17 +105,73 @@
 		}
 	}
 
-	function pushCafePreview() {
-
+	function hourChange(swiper) {
+		var ind = swiper.activeIndex;
+		var bb = document.getElementById('backHour');
+		var fb = document.getElementById('forwardHour');
+		if (ind === 0) {
+			bb.classList.add('disabled');
+		} else if (ind === 4) {
+			fb.classList.add('disabled');
+		} else {
+			bb.classList.remove('disabled');
+			fb.classList.remove('disabled');
+		}
 	}
 
-	function pushCafeOpenInfo() {
+	function pushCafeStatus(status) {
+		var section = document.getElementById('cafeStatusSection');
+		var bar = document.getElementById('cafeStatusBar');
 
+		if (status.open) {
+			section.classList.remove('closed');
+			section.classList.add('open');
+
+			bar.classList.remove('closed');
+			bar.classList.add('open');
+		} else {
+			section.classList.add('closed');
+			section.classList.remove('open');
+
+			bar.classList.add('closed');
+			bar.classList.remove('open');
+		}
+
+		section.innerHTML =
+		bar.innerHTML =
+			'<h5>'+status.title+'</h5>'+
+			'<p>'+status.detail+'</p>'
+		;
+	}
+
+	function pushCafeOpenInfo(hours) {
+		var today = setDayOfWeek(parseInt(moment().format('d')))
+		var days = ['Måndag', 'Tisdag', 'Onsdag', 'Torsdag', 'Fredag'];
+
+		hourSwiper.removeAllSlides();
+		hours.forEach(function(info, i) {
+			var cl = 'swiper-slide';
+			if (i === today) cl += ' today';
+			hourSwiper.appendSlide(
+				'<div class="'+cl+'">'+
+					'<h5>'+days[i]+'</h5>'+
+					'<p>'+info.hours+'</p>'+
+					'<p class="sub">Lunch: '+info.lunch+'</p>'+
+				'</div>'
+			);
+		});
+		hourSwiper.slideTo(today, 0);
+
+		if (today !== 0) {
+			document.getElementById('backHour').classList.remove('disabled');
+			if (today === 4) document.getElementById('forwardHour').classList.add('disabled');
+		}
 	}
 
 	function pushCafePrices(prices) {
 		var list = document.querySelector('ul.pricelist');
 
+		list.innerHTML = '';
 		prices.forEach(function(item, i) {
 			var li = document.createElement('li');
 			li.innerHTML = item.name;
@@ -172,6 +240,8 @@
 	function foodSetup() {
 		// Retrieve cafe information and push it to the page
 		getCafeInfo(function(data) {
+			pushCafeStatus(data.status);
+			pushCafeOpenInfo(data.hours);
 			pushCafePrices(data.prices);
 		});
 
@@ -180,3 +250,43 @@
 			pushLunchList(data);
 		});
 	}
+
+	function updateFood(callback) {
+		var setup = { cafe: false, lunch: false };
+
+		getCafeInfo(function(data) {
+			pushCafeStatus(data.status);
+			pushCafeOpenInfo(data.hours);
+			pushCafePrices(data.prices);
+
+			setup.cafe = true;
+			finished();
+		});
+
+		getLunchList(function(data) {
+			pushLunchList(data);
+
+			setup.lunch = true;
+			finished();
+		});
+
+		function finished() {
+			if (setup.cafe && setup.lunch) callback();
+		}
+	}
+
+	document.getElementById('openHours').addEventListener('click', function() {
+		showModal('#hours');
+	});
+
+	document.getElementById('closeHours').addEventListener('click', function() {
+		hideModal('#hours');
+	});
+
+	document.getElementById('backHour').addEventListener('click', function() {
+		hourSwiper.slidePrev();
+	});
+
+	document.getElementById('forwardHour').addEventListener('click', function() {
+		hourSwiper.slideNext();
+	});

@@ -88,6 +88,17 @@
 		fill:none;
 	}
 
+	hr {
+		width:116px;
+		height:1px;
+		border:0px;
+		background:rgba(42,56,60,0.1);
+		float:left;
+		position:relative;
+		left:50%;
+		margin:10px 0 0 -58px;
+	}
+
   #coreOverlay {
     width:100%;
     height:100%;
@@ -805,31 +816,6 @@
 
 
 	/* // Fixed bar styles */
-
-
-	/* Day tabs styles */
-
-	body[data-active-page="schedule"] .bar.dayBar {
-		-webkit-transform:translate3d(0px,56px,0px);
-		-moz-transform:translate3d(0px,56px,0px);
-		-ms-transform:translate3d(0px,56px,0px);
-		-o-transform:translate3d(0px,56px,0px);
-		transform:translate3d(0px,56px,0px);
-
-		opacity:1;
-	}
-
-	ul.tabs.days span {
-		width:20%;
-		background:#0996cf;
-	}
-
-	ul.tabs.days li {
-		width:20%;
-		color:#2a383c;
-	}
-
-	/* // Day tabs styles */
 
 
 	/* Week slider styles */

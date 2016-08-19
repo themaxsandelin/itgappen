@@ -8,8 +8,7 @@
 		var key = 'AIzaSyBMBbVIAhAfKBn5K8XSU9W-YGyxAJ_YsUQ';
 		var date = moment().toISOString();
 
-		// return 'https://www.googleapis.com/calendar/v3/calendars/'+pre+id+post+'?key='+key+'&maxResults=2500&timeMin='+date+'&singleEvents=True&orderBy=startTime';
-		return 'https://www.googleapis.com/calendar/v3/calendars/'+pre+id+post+'?key='+key+'&maxResults=2500&singleEvents=True&orderBy=startTime';
+		return 'https://www.googleapis.com/calendar/v3/calendars/'+pre+id+post+'?key='+key+'&maxResults=2500&timeMin='+date+'&singleEvents=True&orderBy=startTime';
 	}
 
 	// An basic GET XMLHttpRequest to get the calendar events and then respond by running the callback function
@@ -23,10 +22,11 @@
 	}
 
 	// Takes in a calendar event list and pushes it to the calendar page
-	function pushCalendarEvents(list) {
+	function pushCalendarEvents(list, callback) {
 		var eventList = document.getElementById('calendarEvents');
 		events = [];
 
+		eventList.innerHTML = '';
 		eventList.classList.remove('empty');
 		if (list.length) {
 			for (var i in list) {
@@ -73,6 +73,8 @@
 			element.appendChild(message);
 			eventList.appendChild(element);
 		}
+
+		if (callback) callback();
 	}
 
 	// Capitalizes a string (makes the first letter of the word uppercase).
@@ -209,5 +211,11 @@
 		// Get all calendar events and then push the data to the calendar page
 		getCalendarEvents(calendarUrlFactory(settings.calendar.id), function(res) {
 			pushCalendarEvents(JSON.parse(res).items);
+		});
+	}
+
+	function updateCalendar(callback) {
+		getCalendarEvents(calendarUrlFactory(settings.calendar.id), function(res) {
+			pushCalendarEvents(JSON.parse(res).items, callback);
 		});
 	}

@@ -77,10 +77,12 @@ body[data-double-schedule="false"] #otherField:before {
 }
 
 #settings .content hr {
-	width:100%;
-	max-width:160px;
+	width:160px;
 	height:1px;
+	float:left;
 	border:0px;
 	background:rgba(42,56,60,0.1);
-	margin:5px auto 15px auto;
+	position:relative;
+	left:50%;
+	margin:5px 0 15px -80px;
 }

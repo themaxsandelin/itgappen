@@ -275,6 +275,32 @@ function showIntro() {
 	}, 20);
 }
 
+function resetIntro() {
+	document.getElementById('intro').setAttribute('data-page', '1');
+	document.getElementById('intro').setAttribute('data-double', 'false');
+
+	document.getElementById('nextIntro').classList.add('disabled');
+
+	document.getElementById('introOtherSchedule').value =
+	document.getElementById('introMySchedule').value =
+	document.getElementById('introCalendar').value = '0';
+
+	document.getElementById('introMyInput').value = 'Mitt schema';
+	document.getElementById('introOtherInput').value = 'Annat schema';
+
+	document.getElementById('introDoubleSchedule').classList.remove('on');
+
+	myType.slideTo(0, 0);
+	otherType.slideTo(0, 0);
+
+	introSettings = {
+		double: false,
+		my: {},
+		other: {},
+		calendar: {}
+	}
+}
+
 function setupApplication() {
 	hideLoading();
 	if (settings.setup) {

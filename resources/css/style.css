@@ -1552,6 +1552,10 @@
 		opacity:0.8;
 	}
 
+	.modalWrapper .modalContainer .buttons .button.regular {
+		background:#889baa;
+	}
+
 	.modalWrapper .modalContainer .buttons .button.warning {
 		background:#ef4646;
 	}
@@ -1734,4 +1738,30 @@
 		transform:translate3d(0px,-70px,0px);
 
 		opacity:0;
+	}
+
+	.modalWrapper .modalContainer .modal .header {
+		width:100%;
+		float:left;
+		text-align:center;
+		padding:30px 0;
+	}
+
+	.modalWrapper .modalContainer .modal .header h3 {
+		width:100%;
+	}
+
+	.modalWrapper .modalContainer .modal .header.warning h3 {
+		color:#ef4646;
+	}
+
+	.modalWrapper .modalContainer .modal .header p {
+		width:100%;
+		line-height:20px;
+		color:#2a383c;
+		margin:5px 0 0 0;
+	}
+
+	.modalWrapper .modalContainer .modal .header p.warning {
+		color:#ef4646;
 	}

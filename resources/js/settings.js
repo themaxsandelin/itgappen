@@ -8,9 +8,9 @@
     }, false);
   }
 
-	var double = true;
   var settings = getStoredSettings();
 	var schedules = {};
+	var setupOtherFirst = false;
 
 	var tempSchedule = {};
 
@@ -64,18 +64,37 @@
 
   // Toggles the double schedule setting off and on both in the UI and in the settings object.
   function toggleDoubleSchedule(e) {
-    var sw = document.getElementById('doubleSchedule');
-    settings.double = !settings.double;
-
-		if (settings.double) {
-			sw.classList.add('on');
-			enableDoubleSchedule();
+		if (!settings.double && Object.keys(settings.other).length === 0) {
+			document.getElementById('picker').setAttribute('data-pick-for', 'other');
+	    showModal('#picker');
+			resetPicker();
+			setupOtherFirst = true;
 		} else {
-			sw.classList.remove('on');
-			disableDoubleSchedule();
+			performAction();
 		}
-    saveSettings();
+
+		function performAction() {
+			var sw = document.getElementById('doubleSchedule');
+	    settings.double = !settings.double;
+
+			if (settings.double) {
+				sw.classList.add('on');
+				enableDoubleSchedule();
+			} else {
+				sw.classList.remove('on');
+				disableDoubleSchedule();
+			}
+	    saveSettings();
+		}
   }
+
+	function setupDoubleFirst() {
+		document.getElementById('doubleSchedule').classList.add('on');
+		settings.double = true;
+		saveSettings();
+		enableDoubleSchedule();
+		pushScheduleImages(otherSwiper, scheduleUrlFactory(settings.other.id, otherWeek), otherDay);
+	}
 
 	function enableDoubleSchedule() {
 		document.querySelector('body').setAttribute('data-double-schedule', 'true');
@@ -337,6 +356,7 @@
 
 	// Cancel schedule change
 	document.getElementById('abortPick').addEventListener('click', function() {
+		setupOtherFirst = false;
 		hideModal('#picker');
 	});
 
@@ -344,13 +364,47 @@
 	document.getElementById('savePick').addEventListener('click', function() {
 		var disabled = this.classList.contains('disabled');
 		if (!disabled) {
-			saveScheduleChange();
+			if (setupOtherFirst) {
+				document.getElementById('otherInput').value = 'Annat schema';
+				document.getElementById('otherTitle').value = 'Annat schema';
+				settings.other.title = 'Annat schema';
+				setupOtherFirst = false;
+				saveScheduleChange();
+				setupDoubleFirst();
+			} else {
+				saveScheduleChange();
+			}
 		}
 	});
 
 	document.getElementById('reset').addEventListener('click', function() {
-		localStorage.removeItem('itgappen_settings');
+		showModal('#approveReset');
 	});
+
+	document.getElementById('abortReset').addEventListener('click', function() {
+		hideModal('#approveReset');
+	});
+
+	document.getElementById('resetApp').addEventListener('click', function() {
+		hideModal('#approveReset');
+		showLoading();
+		moveToPage('schedule');
+		setTimeout(function() {
+			hideSettings();
+			resetIntro();
+			resetApp();
+			localStorage.removeItem('itgappen_settings');
+			document.querySelector('body').setAttribute('data-hidden', 'false');
+			showIntro();
+			setTimeout(function() {
+				hideLoading();
+			}, 320);
+		}, 320);
+	});
+
+	function resetApp() {
+		document.getElementById('doubleSchedule').classList.remove('on');
+	}
 
 	// Basic setup that calls methods for setting up the app.
   function settingsSetup() {

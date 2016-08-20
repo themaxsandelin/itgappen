@@ -45,7 +45,7 @@
   // GET request to the API to get all schedule data
 	function getSchedules(callback) {
 		var req = new XMLHttpRequest();
-		req.open('GET', 'http://139.59.171.126/api/2/schedules', true);
+		req.open('GET', 'http://itgappen.se/api/2/schedules', true);
 		req.send();
 		req.onreadystatechange = function() {
 			if (req.readyState == 4 && req.status == 200) callback(JSON.parse(req.responseText));

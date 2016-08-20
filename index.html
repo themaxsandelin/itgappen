@@ -22,7 +22,7 @@
 
 		<script src="resources/js/index.js"></script>
 	</head>
-	<body ontouchstart="" data-hidden="true" data-render="" data-active-page="schedule" data-active-schedule="main" data-selected-day="" data-display-weeks="false" data-double-schedule="false">
+	<body ontouchstart="" data-hidden="true" data-render="ios" data-active-page="schedule" data-active-schedule="main" data-selected-day="" data-display-weeks="false" data-double-schedule="false">
 
 		<div class="loading show display" id="mainLoading">
 			<div class="circle">
@@ -110,7 +110,7 @@
 								</div>
 							</div>
 							<div class="field">
-								<select id="introOtherSchedule"></select>
+								<select id="introOtherSchedule" disabled></select>
 							</div>
 						</div>
 					</div>
@@ -125,14 +125,14 @@
 						<div class="form">
 							<div class="field">
 								<div class="box btn">
-									<input type="text" id="introMyInput" placeholder="Mitt schema" value="Mitt schema" data-default="Mitt schema">
+									<input type="text" id="introMyInput" placeholder="Mitt schema" value="Mitt schema" data-default="Mitt schema" disabled>
 									<div class="button clear" id="clearMyInput"></div>
 								</div>
 							</div>
 
 							<div class="field otherInput">
 								<div class="box btn">
-									<input type="text" id="introOtherInput" placeholder="Annat schema" value="Annat schema" data-default="Annat schema">
+									<input type="text" id="introOtherInput" placeholder="Annat schema" value="Annat schema" data-default="Annat schema" disabled>
 									<div class="button clear" id="clearOtherInput"></div>
 								</div>
 							</div>
@@ -148,7 +148,7 @@
 						</div>
 						<div class="form">
 							<div class="field">
-								<select id="introCalendar"></select>
+								<select id="introCalendar" disabled></select>
 							</div>
 						</div>
 					</div>

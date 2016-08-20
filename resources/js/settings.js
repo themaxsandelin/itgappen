@@ -22,6 +22,18 @@
 
   // Retrieves stored settings from localStorage, though if there is none(null) it returns a base object for settings
   function getStoredSettings() {
+		// Remove old ITG Appen settings
+		if (localStorage.getItem("firstTime")) localStorage.removeItem('firstTime');
+		if (localStorage.getItem("myScheduleName")) localStorage.removeItem("myScheduleName");
+		if (localStorage.getItem("myScheduleID")) localStorage.removeItem("myScheduleID")
+		if (localStorage.getItem("myScheduleSource")) localStorage.removeItem("myScheduleSource");
+		if (localStorage.getItem("otherScheduleName")) localStorage.removeItem("otherScheduleName");
+		if (localStorage.getItem("otherScheduleID")) localStorage.removeItem("otherScheduleID");
+		if (localStorage.getItem("otherScheduleSource")) localStorage.removeItem("otherScheduleSource");
+		if (localStorage.getItem("doubleSchedules")) localStorage.removeItem("doubleSchedules");
+		if (localStorage.getItem("calendarID")) localStorage.removeItem("calendarID");
+		if (localStorage.getItem("calendarSource")) localStorage.removeItem("calendarSource");
+		
 		var stored = (localStorage.getItem('itgappen_settings')) ? JSON.parse(localStorage.getItem('itgappen_settings')):{};
 		return stored;
   }

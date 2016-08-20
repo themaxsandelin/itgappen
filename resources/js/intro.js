@@ -94,12 +94,25 @@ function moveIntroForward() {
 	if (cur === 5) saveIntroSettings();
 
 	if (next === 2) {
-		if (introSettings.double && (!introSettings.other.id || introSettings.other.id === '0')) {
-			document.getElementById('nextIntro').classList.add('disabled');
+		document.getElementById('introMySchedule').setAttribute('disabled', '');
+		if (introSettings.double) {
+			document.getElementById('introOtherSchedule').removeAttribute('disabled');
+			if (!introSettings.other.id || introSettings.other.id === '0') {
+				document.getElementById('nextIntro').classList.add('disabled');
+			}
 		}
+	} else if (next === 3) {
+		document.getElementById('introOtherSchedule').setAttribute('disabled', '');
+		document.getElementById('introMyInput').removeAttribute('disabled');
+		if (introSettings.double) document.getElementById('introOtherInput').removeAttribute('disabled');
 	} else if (next === 4) {
 		introSettings.my.title = document.getElementById('introMyInput').value;
 		introSettings.other.title = document.getElementById('introOtherInput').value;
+
+		document.getElementById('introMyInput').setAttribute('disabled', '');
+		document.getElementById('introOtherInput').setAttribute('disabled', '');
+
+		document.getElementById('introCalendar').removeAttribute('disabled');
 
 		if (introSettings.my.class) {
 			var list = document.getElementById('introCalendar');
@@ -119,6 +132,8 @@ function moveIntroForward() {
 		}
 
 		if (!introSettings.calendar.id || introSettings.calendar.id === '0') document.getElementById('nextIntro').classList.add('disabled');
+	} else {
+		document.getElementById('introCalendar').setAttribute('disabled', '');
 	}
 }
 
@@ -129,8 +144,20 @@ function moveIntroBackward() {
 
 	if (next === 1) {
 		if (introSettings.my.id && introSettings.my.id !== '0') document.getElementById('nextIntro').classList.remove('disabled');
+		document.getElementById('introOtherSchedule').setAttribute('disabled', '');
+		document.getElementById('introMySchedule').removeAttribute('disabled');
+	} else if (next === 2) {
+		document.getElementById('introMyInput').setAttribute('disabled', '');
+		document.getElementById('introOtherInput').setAttribute('disabled', '');
+		if (introSettings.double) document.getElementById('introOtherSchedule').removeAttribute('disabled');
 	} else if (next === 3) {
 		document.getElementById('nextIntro').classList.remove('disabled');
+		document.getElementById('introCalendar').setAttribute('disabled', '');
+
+		document.getElementById('introMyInput').removeAttribute('disabled');
+		if (introSettings.double) document.getElementById('introOtherInput').removeAttribute('disabled');
+	} else if (next === 4) {
+		document.getElementById('introCalendar').removeAttribute('disabled');
 	}
 }
 
@@ -139,9 +166,11 @@ function toggleDoubleSchedule() {
 	introSettings.double = !introSettings.double;
 	document.getElementById('intro').setAttribute('data-double', introSettings.double);
 	if (introSettings.double) {
+		document.getElementById('introOtherSchedule').removeAttribute('disabled');
 		sw.classList.add('on');
 		if (!introSettings.other.id || introSettings.other.id === '0') document.getElementById('nextIntro').classList.add('disabled');
 	} else {
+		document.getElementById('introOtherSchedule').setAttribute('disabled', '');
 		sw.classList.remove('on');
 		document.getElementById('nextIntro').classList.remove('disabled');
 	}
@@ -280,6 +309,8 @@ function resetIntro() {
 	document.getElementById('intro').setAttribute('data-double', 'false');
 
 	document.getElementById('nextIntro').classList.add('disabled');
+
+	document.getElementById('introMySchedule').removeAttribute('disabled');
 
 	document.getElementById('introOtherSchedule').value =
 	document.getElementById('introMySchedule').value =

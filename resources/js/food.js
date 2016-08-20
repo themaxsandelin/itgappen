@@ -15,7 +15,7 @@
 
 	function setDayOfWeek(d) {
 		d = d - 1;
-		if (d > 4 || d === -1) d = 0;
+		if (d > 4 || d === -1) d = 4;
 		return d;
 	}
 

@@ -33,7 +33,7 @@
 		if (localStorage.getItem("doubleSchedules")) localStorage.removeItem("doubleSchedules");
 		if (localStorage.getItem("calendarID")) localStorage.removeItem("calendarID");
 		if (localStorage.getItem("calendarSource")) localStorage.removeItem("calendarSource");
-		
+
 		var stored = (localStorage.getItem('itgappen_settings')) ? JSON.parse(localStorage.getItem('itgappen_settings')):{};
 		return stored;
   }
@@ -313,8 +313,15 @@
 			settings.other.id = tempSchedule.id;
 			settings.other.name = tempSchedule.name;
 		}
+		saveSettings();
 		updateSettingsValues();
 		hideModal('#picker');
+		
+		showLoader('#schedule .pageLoader', function() {
+			updateSchedules(function() {
+				hideLoader('#schedule .pageLoader');
+			});
+		});
 	}
 
   // Add click event for all double schedule toggles.

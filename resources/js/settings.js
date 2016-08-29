@@ -316,7 +316,7 @@
 		saveSettings();
 		updateSettingsValues();
 		hideModal('#picker');
-		
+
 		showLoader('#schedule .pageLoader', function() {
 			updateSchedules(function() {
 				hideLoader('#schedule .pageLoader');
@@ -384,7 +384,7 @@
 		if (!disabled) {
 			if (setupOtherFirst) {
 				document.getElementById('otherInput').value = 'Annat schema';
-				document.getElementById('otherTitle').value = 'Annat schema';
+				document.getElementById('otherTitle').innerHTML = 'Annat schema';
 				settings.other.title = 'Annat schema';
 				setupOtherFirst = false;
 				saveScheduleChange();

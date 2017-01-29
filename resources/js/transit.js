@@ -66,7 +66,7 @@
 	// and return the data as parsed JSON data
 	function loadTransits(callback) {
 		var req = new XMLHttpRequest();
-		req.open('GET', 'http://itgappen.se/api/2/transit', true);
+		req.open('GET', 'https://itgappen.se/api/2/transit', true);
 		req.send();
 		req.onreadystatechange = function() {
 			if (req.readyState === 4 && req.status === 200) callback(JSON.parse(req.responseText));

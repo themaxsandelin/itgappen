@@ -88,7 +88,7 @@
 	// Retrieve the cafe info from the API
 	function getCafeInfo(callback) {
 		var req = new XMLHttpRequest();
-		req.open('GET', 'http://itgappen.se/api/2/cafe', true);
+		req.open('GET', 'https://itgappen.se/api/2/cafe', true);
 		req.send();
 		req.onreadystatechange = function() {
 			if (req.readyState == 4 && req.status == 200) callback(JSON.parse(req.responseText));
@@ -98,7 +98,7 @@
 	// Retrieve the lunch list of the week from the API
 	function getLunchList(callback) {
 		var req = new XMLHttpRequest();
-		req.open('GET', 'http://itgappen.se/api/2/lunch'), true;
+		req.open('GET', 'https://itgappen.se/api/2/lunch'), true;
 		req.send();
 		req.onreadystatechange = function() {
 			if (req.readyState == 4 && req.status == 200) callback(JSON.parse(req.responseText));
